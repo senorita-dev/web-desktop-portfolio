@@ -1,9 +1,7 @@
+import DesktopShell from './components/DesktopShell'
+
 function App() {
-  return (
-    <div>
-      <p>Hello, world!</p>
-    </div>
-  )
+  return <DesktopShell />
 }
 
 export default App
