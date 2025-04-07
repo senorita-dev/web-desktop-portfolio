@@ -15,4 +15,20 @@
 .taskbar {
   height: 3rem;
   background-color: purple;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.taskbar_location {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.taskbar_location_icon {
+  height: 55%;
+  width: auto;
 }
