@@ -19,6 +19,7 @@
   align-items: center;
   padding-left: 1rem;
   padding-right: 1rem;
+  gap: 1rem;
 }
 
 .taskbar_location {
@@ -31,4 +32,13 @@
 .taskbar_location_icon {
   height: 55%;
   width: auto;
+}
+
+.taskbar_datetime {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
 }

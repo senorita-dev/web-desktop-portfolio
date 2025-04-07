@@ -23,6 +23,7 @@ const Taskbar = () => {
     <div className={styles.taskbar}>
       <p>Taskbar</p>
       <TaskbarLocation />
+      <TaskbarDateTime />
     </div>
   )
 }
@@ -32,6 +33,15 @@ const TaskbarLocation = () => {
     <div className={styles.taskbar_location}>
       <LocationIcon className={styles.taskbar_location_icon} stroke="white" />
       <p>Auckland, New Zealand</p>
+    </div>
+  )
+}
+
+const TaskbarDateTime = () => {
+  return (
+    <div className={styles.taskbar_datetime}>
+      <span>10:00 pm</span>
+      <span>7/04/2025</span>
     </div>
   )
 }
