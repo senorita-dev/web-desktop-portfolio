@@ -1,5 +1,6 @@
 import styles from './DesktopShell.module.css'
 import LocationIcon from '../assets/location-icon.svg?react'
+import { useEffect, useRef, useState } from 'react'
 
 const DesktopShell = () => {
   return (
@@ -37,11 +38,38 @@ const TaskbarLocation = () => {
   )
 }
 
+const dateFormatter = new Intl.DateTimeFormat('en-NZ', {
+  timeZone: 'Pacific/Auckland',
+  dateStyle: 'short',
+})
+const timeFormatter = new Intl.DateTimeFormat('en-NZ', {
+  timeZone: 'Pacific/Auckland',
+  timeStyle: 'short',
+})
+
 const TaskbarDateTime = () => {
+  const [datetime, setDatetime] = useState(new Date())
+  const datetimeRef = useRef(new Date())
+
+  useEffect(() => {
+    const updateDateTime = () => {
+      const now = new Date()
+      if (datetimeRef.current.getMinutes() !== now.getMinutes()) {
+        datetimeRef.current = now
+        setDatetime(now)
+      }
+    }
+    const clock = setInterval(updateDateTime, 1000)
+    return () => clearInterval(clock)
+  }, [])
+
+  const date = dateFormatter.format(datetime)
+  const time = timeFormatter.format(datetime)
+
   return (
     <div className={styles.taskbar_datetime}>
-      <span>10:00 pm</span>
-      <span>7/04/2025</span>
+      <span>{time}</span>
+      <span>{date}</span>
     </div>
   )
 }
