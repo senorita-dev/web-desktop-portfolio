@@ -1,5 +1,6 @@
 .taskbar {
   height: 3rem;
+  color: white;
   background-color: purple;
   display: flex;
   align-items: center;
