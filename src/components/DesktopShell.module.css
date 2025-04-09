@@ -6,39 +6,3 @@
   background-color: black;
   color: white;
 }
-
-.desktop {
-  background-color: transparent;
-  flex-grow: 1;
-}
-
-.taskbar {
-  height: 3rem;
-  background-color: purple;
-  display: flex;
-  align-items: center;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  gap: 1rem;
-}
-
-.taskbar_location {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-
-.taskbar_location_icon {
-  height: 55%;
-  width: auto;
-}
-
-.taskbar_datetime {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.2rem;
-}
