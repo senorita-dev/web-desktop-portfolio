@@ -1,4 +1,4 @@
-import styles from './DesktopItem.module.css'
+import styles from 'src/components/DesktopItem.module.css'
 import { CSSProperties } from 'react'
 
 interface DesktopItemProps {

@@ -1,5 +1,5 @@
-import styles from './Taskbar.module.css'
-import LocationIcon from '../assets/location-icon.svg?react'
+import styles from 'src/components/Taskbar.module.css'
+import LocationIcon from 'src/assets/location-icon.svg?react'
 import { useEffect, useRef, useState } from 'react'
 
 const Taskbar = () => {

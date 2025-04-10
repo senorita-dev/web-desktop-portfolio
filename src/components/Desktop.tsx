@@ -1,5 +1,5 @@
-import styles from './Desktop.module.css'
-import DesktopItem from './DesktopItem'
+import styles from 'src/components/Desktop.module.css'
+import DesktopItem from 'src/components/DesktopItem'
 
 const Desktop = () => {
   return (

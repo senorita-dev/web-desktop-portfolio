@@ -1,6 +1,6 @@
-import styles from './DesktopShell.module.css'
-import Desktop from './Desktop'
-import Taskbar from './Taskbar'
+import styles from 'src/components/DesktopShell.module.css'
+import Desktop from 'src/components/Desktop'
+import Taskbar from 'src/components/Taskbar'
 
 const DesktopShell = () => {
   return (
