@@ -1,7 +1,7 @@
 .taskbar {
-  height: 3rem;
+  height: 2rem;
   color: white;
-  background-color: purple;
+  background-color: #c3c3c3;
   display: flex;
   align-items: center;
   padding-left: 1rem;
@@ -9,22 +9,11 @@
   gap: 1rem;
 }
 
-.taskbar_location {
-  height: 100%;
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-
-.taskbar_location_icon {
-  height: 55%;
-  width: auto;
-}
-
 .taskbar_datetime {
   height: 100%;
   display: flex;
   flex-direction: column;
+  margin-left: auto;
   align-items: center;
   justify-content: center;
   gap: 0.2rem;

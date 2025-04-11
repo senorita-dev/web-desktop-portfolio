@@ -11,11 +11,7 @@ const Desktop = () => {
 }
 
 const DesktopBackground = () => {
-  return (
-    <div className={styles.desktopBackground}>
-      <p>Desktop Background</p>
-    </div>
-  )
+  return <div className={styles.desktopBackground} />
 }
 
 const DesktopGrid = () => {
