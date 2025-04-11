@@ -1,11 +1,15 @@
 import styles from 'src/components/Desktop.module.css'
-import DesktopItem from 'src/components/DesktopItem'
+import DesktopItem, { DesktopItemProps } from 'src/components/DesktopItem'
 
-const Desktop = () => {
+interface DesktopProps {
+  items: DesktopItemProps[]
+}
+const Desktop = (props: DesktopProps) => {
+  const { items } = props
   return (
     <div className={styles.desktop}>
       <DesktopBackground />
-      <DesktopGrid />
+      <DesktopGrid items={items} />
     </div>
   )
 }
@@ -14,10 +18,16 @@ const DesktopBackground = () => {
   return <div className={styles.desktopBackground} />
 }
 
-const DesktopGrid = () => {
+interface DesktopGridProps {
+  items: DesktopItemProps[]
+}
+const DesktopGrid = (props: DesktopGridProps) => {
+  const { items } = props
   return (
     <div className={styles.desktopGrid}>
-      <DesktopItem row={4} column={7} />
+      {items.map(({ row, col }, index) => (
+        <DesktopItem key={index} row={row} col={col} />
+      ))}
     </div>
   )
 }

@@ -1,11 +1,16 @@
 import styles from 'src/components/DesktopShell.module.css'
 import Desktop from 'src/components/Desktop'
 import Taskbar from 'src/components/Taskbar'
+import { DesktopItemProps } from 'src/components/DesktopItem'
 
-const DesktopShell = () => {
+interface DesktopShellProps {
+  items: DesktopItemProps[]
+}
+const DesktopShell = (props: DesktopShellProps) => {
+  const { items } = props
   return (
     <div className={styles.desktopShell}>
-      <Desktop />
+      <Desktop items={items} />
       <Taskbar />
     </div>
   )
