@@ -9,9 +9,18 @@
   gap: 4px;
 }
 
-.desktopItem_image {
+.desktopItem_imageContainer {
   width: 48px;
   height: 48px;
+  position: relative;
+}
+
+.desktopItem_image {
+  position: absolute;
+}
+
+.desktopItem_shortcutOverlay {
+  position: absolute;
 }
 
 .desktopItem_title {
