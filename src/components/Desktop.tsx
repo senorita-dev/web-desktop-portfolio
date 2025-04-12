@@ -25,8 +25,8 @@ const DesktopGrid = (props: DesktopGridProps) => {
   const { items } = props
   return (
     <div className={styles.desktopGrid}>
-      {items.map(({ row, col }, index) => (
-        <DesktopItem key={index} row={row} col={col} />
+      {items.map((item, index) => (
+        <DesktopItem key={index} {...item} />
       ))}
     </div>
   )
