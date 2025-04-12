@@ -11,6 +11,27 @@ function App() {
       col: 1,
       title: 'Source Code',
       icon: InternetIcon,
+      onOpen: () => {
+        window.open(
+          'https://github.com/senorita-dev/web-desktop-portfolio',
+          '_blank',
+          'noopener,noreferrer',
+        )
+      },
+      shortcut: true,
+    },
+    {
+      row: 3,
+      col: 1,
+      title: 'GitHub',
+      icon: InternetIcon,
+      onOpen: () => {
+        window.open(
+          'https://github.com/senorita-dev',
+          '_blank',
+          'noopener,noreferrer',
+        )
+      },
       shortcut: true,
     },
   ]
