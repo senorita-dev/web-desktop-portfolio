@@ -7,13 +7,14 @@ export interface DesktopItemProps {
   col: number
   title: string
   icon: string
+  onOpen?: () => void
   shortcut?: boolean
 }
 const DesktopItem = (props: DesktopItemProps) => {
-  const { row, col, title, icon, shortcut } = props
+  const { row, col, title, icon, onOpen, shortcut } = props
   const style: CSSProperties = { gridRow: row, gridColumn: col }
   return (
-    <div className={styles.desktopItem} style={style}>
+    <div className={styles.desktopItem} style={style} onClick={onOpen}>
       <div className={styles.desktopItem_imageContainer}>
         <img src={icon} className={styles.desktopItem_image} />
         {shortcut && (
