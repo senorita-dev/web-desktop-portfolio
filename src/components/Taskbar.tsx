@@ -30,10 +30,10 @@ const TaskbarDateTime = () => {
     return () => clearInterval(clock)
   }, [])
 
-  const time = timeFormatter.format(datetime)
+  const time = timeFormatter.format(datetime).toUpperCase()
 
   return (
-    <div className={styles.taskbar_datetime}>
+    <div className={`${styles.taskbar_item} ${styles.taskbar_datetime}`}>
       <span>{time}</span>
     </div>
   )
