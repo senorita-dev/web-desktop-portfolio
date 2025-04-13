@@ -17,6 +17,20 @@
   gap: 2px;
 }
 
+.taskbar_startButton {
+  border-top: 1px solid white;
+  border-left: 1px solid white;
+  border-right: 1px solid grey;
+  border-bottom: 1px solid grey;
+  box-shadow: inset 1px 1px #dfdfdf, 1px 0 black, 0 1px black, 1px 1px black;
+  font-weight: bold;
+}
+
+.taskbar_startButton_icon {
+  height: 100%;
+  width: 100%;
+}
+
 .taskbar_datetime {
   margin-left: auto;
 }

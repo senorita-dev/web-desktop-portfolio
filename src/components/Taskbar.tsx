@@ -1,10 +1,21 @@
 import styles from 'src/components/Taskbar.module.css'
 import { useEffect, useRef, useState } from 'react'
+import WindowsIcon from 'src/assets/icons/windows.png'
 
 const Taskbar = () => {
   return (
     <div className={styles.taskbar}>
+      <TaskbarStartButton />
       <TaskbarDateTime />
+    </div>
+  )
+}
+
+const TaskbarStartButton = () => {
+  return (
+    <div className={`${styles.taskbar_item} ${styles.taskbar_startButton}`}>
+      <img src={WindowsIcon} className={styles.taskbar_startButton_icon} />
+      <span>Start</span>
     </div>
   )
 }
