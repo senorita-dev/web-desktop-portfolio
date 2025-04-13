@@ -3,6 +3,8 @@
   background-color: #c3c3c3;
   display: flex;
   padding: 2px;
+  padding-top: 1px;
+  border-top: 1px solid white;
 }
 
 .taskbar_item {
