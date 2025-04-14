@@ -34,6 +34,20 @@ function App() {
       },
       shortcut: true,
     },
+    {
+      row: 4,
+      col: 1,
+      title: 'LinkedIn',
+      icon: InternetIcon,
+      onOpen: () => {
+        window.open(
+          'https://www.linkedin.com/in/ren-saito/',
+          '_blank',
+          'noopener,noreferrer',
+        )
+      },
+      shortcut: true,
+    },
   ]
   return <DesktopShell items={desktopItems} />
 }
