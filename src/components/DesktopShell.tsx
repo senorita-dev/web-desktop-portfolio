@@ -9,9 +9,11 @@ interface DesktopShellProps {
 const DesktopShell = (props: DesktopShellProps) => {
   const { items } = props
   return (
-    <div className={styles.desktopShell}>
-      <Desktop items={items} />
-      <Taskbar />
+    <div className={styles.desktopShell_container}>
+      <div className={styles.desktopShell}>
+        <Desktop items={items} />
+        <Taskbar />
+      </div>
     </div>
   )
 }
