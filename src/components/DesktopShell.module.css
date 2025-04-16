@@ -1,9 +1,9 @@
 .desktopShell_container {
+  display: flex;
   min-height: 100%;
   min-width: 100%;
   width: fit-content;
   background-color: black;
-  display: flex;
   justify-content: center;
   align-items: center;
 }
