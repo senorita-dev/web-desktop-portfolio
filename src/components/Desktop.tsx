@@ -1,14 +1,13 @@
+import { useContext } from 'react'
 import styles from 'src/components/Desktop.module.css'
-import DesktopItem, { DesktopItemProps } from 'src/components/DesktopItem'
+import DesktopItem from 'src/components/DesktopItem'
+import AppContext from 'src/contexts/AppContext'
 
-interface DesktopProps {
-  items: DesktopItemProps[]
-}
-const Desktop = (props: DesktopProps) => {
-  const { items } = props
+const Desktop = () => {
+  const { desktopItems } = useContext(AppContext)
   return (
     <div className={styles.desktop}>
-      {items.map((item, index) => (
+      {desktopItems.map((item, index) => (
         <DesktopItem key={index} {...item} />
       ))}
     </div>
