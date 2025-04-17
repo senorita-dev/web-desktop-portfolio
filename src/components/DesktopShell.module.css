@@ -1,13 +1,6 @@
-.desktopShell_container {
-  display: flex;
-  min-height: 100%;
-  min-width: 100%;
-  width: fit-content;
-  background-color: black;
-  justify-content: center;
-  align-items: center;
-}
-
 .desktopShell {
-  display: inline-block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }

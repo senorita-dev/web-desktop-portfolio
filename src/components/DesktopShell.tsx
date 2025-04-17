@@ -4,11 +4,9 @@ import Taskbar from 'src/components/Taskbar'
 
 const DesktopShell = () => {
   return (
-    <div className={styles.desktopShell_container}>
-      <div className={styles.desktopShell}>
-        <Desktop />
-        <Taskbar />
-      </div>
+    <div className={styles.desktopShell}>
+      <Desktop />
+      <Taskbar />
     </div>
   )
 }
