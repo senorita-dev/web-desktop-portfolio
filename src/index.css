@@ -36,4 +36,8 @@ body,
 
 #root {
   font-family: 'MS W98 UI';
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }

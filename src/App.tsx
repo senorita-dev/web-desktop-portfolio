@@ -1,10 +1,12 @@
-import DesktopShell from 'src/components/DesktopShell'
 import AppContext, { appContext } from 'src/contexts/AppContext'
+import Desktop from 'src/components/Desktop'
+import Taskbar from 'src/components/Taskbar'
 
 function App() {
   return (
     <AppContext.Provider value={appContext}>
-      <DesktopShell />
+      <Desktop />
+      <Taskbar />
     </AppContext.Provider>
   )
 }

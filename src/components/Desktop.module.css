@@ -5,7 +5,7 @@
   color: white;
 }
 
-.desktopItems {
+.desktopIcons {
   display: grid;
   height: 100%;
   grid-template-rows: repeat(auto-fit, 80px);

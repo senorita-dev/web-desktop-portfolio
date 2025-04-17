@@ -2,9 +2,9 @@ import { createContext } from 'react'
 import ComputerIcon from 'src/assets/icons/computer_explorer.png'
 import InternetIcon from 'src/assets/icons/internet_connection_wiz.png'
 import NotepadIcon from 'src/assets/icons/notepad.png'
-import { DesktopItemProps } from 'src/components/DesktopItem'
+import { DesktopIconProps } from 'src/components/DesktopIcon'
 
-const desktopItems: DesktopItemProps[] = [
+const desktopIcons: DesktopIconProps[] = [
   {
     row: 1,
     col: 1,
@@ -62,10 +62,10 @@ const desktopItems: DesktopItemProps[] = [
 ]
 
 interface AppContextType {
-  desktopItems: DesktopItemProps[]
+  desktopIcons: DesktopIconProps[]
 }
 
-export const appContext: AppContextType = { desktopItems }
+export const appContext: AppContextType = { desktopIcons }
 
 const AppContext = createContext<AppContextType>(appContext)
 
