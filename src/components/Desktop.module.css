@@ -1,6 +1,6 @@
 .desktop {
   height: 100%;
-
+  min-height: fit-content;
   background-color: #008080;
   color: white;
 }
