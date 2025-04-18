@@ -3,6 +3,7 @@ import ComputerIcon from 'src/assets/icons/computer_explorer.png'
 import InternetIcon from 'src/assets/icons/internet_connection_wiz.png'
 import NotepadIcon from 'src/assets/icons/notepad.png'
 import { DesktopIconProps } from 'src/components/DesktopIcon'
+import { WindowProps } from 'src/components/Window'
 
 const desktopIcons: DesktopIconProps[] = [
   {
@@ -60,12 +61,22 @@ const desktopIcons: DesktopIconProps[] = [
     icon: NotepadIcon,
   },
 ]
+const windows: WindowProps[] = [
+  {
+    title: 'notepad',
+    width: 60,
+    height: 60,
+    x: 20,
+    y: 20,
+  },
+]
 
 interface AppContextType {
   desktopIcons: DesktopIconProps[]
+  windows: WindowProps[]
 }
 
-export const appContext: AppContextType = { desktopIcons }
+export const appContext: AppContextType = { desktopIcons, windows }
 
 const AppContext = createContext<AppContextType>(appContext)
 
