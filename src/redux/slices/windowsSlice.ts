@@ -3,11 +3,13 @@ import { DesktopIconProps } from 'src/components/DesktopIcon'
 import { WindowProps } from 'src/components/Window'
 
 interface WindowsState {
-  value: WindowProps[]
+  windows: WindowProps[]
+  count: number
 }
 
 const initialState: WindowsState = {
-  value: [],
+  windows: [],
+  count: 0,
 }
 
 const windowsSlice = createSlice({
@@ -18,14 +20,23 @@ const windowsSlice = createSlice({
       state: WindowsState,
       action: PayloadAction<DesktopIconProps>,
     ) => {
+      const width = 60
+      const height = 60
+      const deltaX = state.count * 1
+      const deltaY = state.count * 2
+      const defaultX = 20
+      const defaultY = 20
+      const x = (defaultX + deltaX) % (100 - width)
+      const y = (defaultY + deltaY) % (100 - height)
       const newWindow: WindowProps = {
+        x,
+        y,
+        width,
+        height,
         title: action.payload.title,
-        height: 60,
-        width: 60,
-        x: 20,
-        y: 20,
       }
-      state.value.push(newWindow)
+      state.windows.push(newWindow)
+      state.count += 1
     },
   },
 })

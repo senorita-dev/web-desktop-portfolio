@@ -26,7 +26,7 @@ const DesktopIcons = () => {
 
 const Windows = () => {
   const state = useAppSelector((state) => state.windows)
-  const windows = state.value
+  const { windows } = state
   return (
     <div className={styles.windows}>
       {windows.map((window, index) => (
