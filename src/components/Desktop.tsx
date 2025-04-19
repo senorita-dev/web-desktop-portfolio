@@ -29,8 +29,8 @@ const Windows = () => {
   const { windows } = state
   return (
     <div className={styles.windows}>
-      {windows.map((window, index) => (
-        <Window key={index} {...window} />
+      {windows.map((window) => (
+        <Window key={window.id} {...window} />
       ))}
     </div>
   )
