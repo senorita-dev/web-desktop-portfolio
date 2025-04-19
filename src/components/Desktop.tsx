@@ -1,8 +1,7 @@
-import { useContext } from 'react'
 import styles from 'src/components/Desktop.module.css'
 import DesktopIcon from 'src/components/DesktopIcon'
-import AppContext from 'src/contexts/AppContext'
 import Window from 'src/components/Window'
+import { useAppSelector } from 'src/redux/hooks'
 
 const Desktop = () => {
   return (
@@ -14,7 +13,8 @@ const Desktop = () => {
 }
 
 const DesktopIcons = () => {
-  const { desktopIcons } = useContext(AppContext)
+  const state = useAppSelector((state) => state.desktopIcons)
+  const desktopIcons = state.value
   return (
     <div className={styles.desktopIcons}>
       {desktopIcons.map((desktopIcon, index) => (
@@ -25,7 +25,8 @@ const DesktopIcons = () => {
 }
 
 const Windows = () => {
-  const { windows } = useContext(AppContext)
+  const state = useAppSelector((state) => state.windows)
+  const windows = state.value
   return (
     <div className={styles.windows}>
       {windows.map((window, index) => (
