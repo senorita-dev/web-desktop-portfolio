@@ -52,8 +52,33 @@ const windowsSlice = createSlice({
       }
       state.windows = state.windows.filter(({ id }) => id !== windowId)
     },
+    toggleMaximize: (
+      state: WindowsState,
+      action: PayloadAction<WindowProps['id']>,
+    ) => {
+      const windowId = action.payload
+      const window = state.windows.find(({ id }) => id === windowId)
+      if (window === undefined) {
+        console.error('Window not found', windowId, state)
+        return
+      }
+      const { x, y, width, height } = window
+      const isMaximized = x === 0 && y === 0 && width === 100 && height === 100
+      if (isMaximized) {
+        window.x = 20
+        window.y = 20
+        window.width = 60
+        window.height = 60
+      } else {
+        window.x = 0
+        window.y = 0
+        window.width = 100
+        window.height = 100
+      }
+    },
   },
 })
 
-export const { createWindow, deleteWindow } = windowsSlice.actions
+export const { createWindow, deleteWindow, toggleMaximize } =
+  windowsSlice.actions
 export default windowsSlice.reducer

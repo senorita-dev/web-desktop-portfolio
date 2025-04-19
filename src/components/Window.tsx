@@ -1,6 +1,6 @@
 import { HTMLAttributes, memo } from 'react'
 import { useAppDispatch } from 'src/redux/hooks'
-import { deleteWindow } from 'src/redux/slices/windowsSlice'
+import { deleteWindow, toggleMaximize } from 'src/redux/slices/windowsSlice'
 
 export interface WindowProps {
   id: string
@@ -22,6 +22,7 @@ const Window = memo((props: WindowProps) => {
     height: `${height}%`,
   }
   const dispatch = useAppDispatch()
+  const onMaximize = () => dispatch(toggleMaximize(id))
   const onClose = () => dispatch(deleteWindow(id))
   return (
     <div className="window" style={style}>
@@ -29,7 +30,7 @@ const Window = memo((props: WindowProps) => {
         <div className="title-bar-text">{title}</div>
         <div className="title-bar-controls" style={{ minWidth: 'fit-content' }}>
           <button aria-label="Minimize"></button>
-          <button aria-label="Maximize"></button>
+          <button aria-label="Maximize" onClick={onMaximize}></button>
           <button aria-label="Close" onClick={onClose}></button>
         </div>
       </div>
