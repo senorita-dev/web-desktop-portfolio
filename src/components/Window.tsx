@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, memo } from 'react'
 
 export interface WindowProps {
   id: string
@@ -8,7 +8,7 @@ export interface WindowProps {
   height: number
   title: string
 }
-const Window = (props: WindowProps) => {
+const Window = memo((props: WindowProps) => {
   const { x, y, width, height, title } = props
   const style: HTMLAttributes<HTMLDivElement>['style'] = {
     position: 'absolute',
@@ -31,6 +31,6 @@ const Window = (props: WindowProps) => {
       </div>
     </div>
   )
-}
+})
 
 export default Window
