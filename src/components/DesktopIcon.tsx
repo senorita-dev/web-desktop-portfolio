@@ -3,7 +3,7 @@ import { CSSProperties } from 'react'
 import ShortcutOverlay from 'src/assets/icons/overlay_shortcut.png'
 import { assertNever } from 'src/utils'
 import { useAppDispatch } from 'src/redux/hooks'
-import { addWindow } from 'src/redux/slices/windowsSlice'
+import { createWindow } from 'src/redux/slices/windowsSlice'
 
 interface BaseDesktopIconProps {
   row: number
@@ -65,7 +65,7 @@ const FileDesktopIcon = (props: FileDesktopIconProps) => {
   const { row, col, title, icon } = props
   const style: CSSProperties = { gridRow: row, gridColumn: col }
   const dispatch = useAppDispatch()
-  const onOpen = () => dispatch(addWindow(props))
+  const onOpen = () => dispatch(createWindow(props))
   return (
     <div className={styles.desktopIcon} style={style} onClick={onOpen}>
       <div className={styles.desktopIcon_imageContainer}>

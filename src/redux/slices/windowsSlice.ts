@@ -17,7 +17,7 @@ const windowsSlice = createSlice({
   name: 'windows',
   initialState,
   reducers: {
-    addWindow: (
+    createWindow: (
       state: WindowsState,
       action: PayloadAction<DesktopIconProps>,
     ) => {
@@ -55,5 +55,5 @@ const windowsSlice = createSlice({
   },
 })
 
-export const { addWindow, deleteWindow } = windowsSlice.actions
+export const { createWindow, deleteWindow } = windowsSlice.actions
 export default windowsSlice.reducer
