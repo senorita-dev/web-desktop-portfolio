@@ -1,6 +1,7 @@
 import { HTMLAttributes } from 'react'
 
 export interface WindowProps {
+  id: string
   x: number
   y: number
   width: number

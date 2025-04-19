@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { DesktopIconProps } from 'src/components/DesktopIcon'
 import { WindowProps } from 'src/components/Window'
+import { v4 as uuidv4 } from 'uuid'
 
 interface WindowsState {
   windows: WindowProps[]
@@ -33,6 +34,7 @@ const windowsSlice = createSlice({
         y,
         width,
         height,
+        id: uuidv4(),
         title: action.payload.title,
       }
       state.windows.push(newWindow)
