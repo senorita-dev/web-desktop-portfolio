@@ -40,8 +40,20 @@ const windowsSlice = createSlice({
       state.windows.push(newWindow)
       state.count += 1
     },
+    deleteWindow: (
+      state: WindowsState,
+      action: PayloadAction<WindowProps['id']>,
+    ) => {
+      const windowId = action.payload
+      const window = state.windows.find(({ id }) => id === windowId)
+      if (window === undefined) {
+        console.error('Window not found', windowId, state)
+        return
+      }
+      state.windows = state.windows.filter(({ id }) => id !== windowId)
+    },
   },
 })
 
-export const { addWindow } = windowsSlice.actions
+export const { addWindow, deleteWindow } = windowsSlice.actions
 export default windowsSlice.reducer
