@@ -11,54 +11,38 @@ interface DesktopIconsState {
 const initialState: DesktopIconsState = {
   value: [
     {
+      type: 'custom',
       row: 1,
       col: 1,
       title: 'Computer',
       icon: ComputerIcon,
     },
     {
+      type: 'shortcut',
       row: 2,
       col: 1,
       title: 'Source Code',
       icon: InternetIcon,
-      onOpen: () => {
-        window.open(
-          'https://github.com/senorita-dev/web-desktop-portfolio',
-          '_blank',
-          'noopener,noreferrer',
-        )
-      },
-      shortcut: true,
+      url: 'https://github.com/senorita-dev/web-desktop-portfolio',
     },
     {
+      type: 'shortcut',
       row: 3,
       col: 1,
       title: 'GitHub',
       icon: InternetIcon,
-      onOpen: () => {
-        window.open(
-          'https://github.com/senorita-dev',
-          '_blank',
-          'noopener,noreferrer',
-        )
-      },
-      shortcut: true,
+      url: 'https://github.com/senorita-dev',
     },
     {
+      type: 'shortcut',
       row: 4,
       col: 1,
       title: 'LinkedIn',
       icon: InternetIcon,
-      onOpen: () => {
-        window.open(
-          'https://www.linkedin.com/in/ren-saito/',
-          '_blank',
-          'noopener,noreferrer',
-        )
-      },
-      shortcut: true,
+      url: 'https://www.linkedin.com/in/ren-saito/',
     },
     {
+      type: 'file',
       row: 5,
       col: 1,
       title: 'weaknesses',
