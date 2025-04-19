@@ -1,14 +1,15 @@
 import '98.css'
-import AppContext, { appContext } from 'src/contexts/AppContext'
+import { Provider } from 'react-redux'
 import Desktop from 'src/components/Desktop'
 import Taskbar from 'src/components/Taskbar'
+import store from 'src/redux/store'
 
 function App() {
   return (
-    <AppContext.Provider value={appContext}>
+    <Provider store={store}>
       <Desktop />
       <Taskbar />
-    </AppContext.Provider>
+    </Provider>
   )
 }
 
