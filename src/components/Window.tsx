@@ -16,6 +16,7 @@ const Window = memo((props: WindowProps) => {
   const title = `${file.title} - ${file.applicationType}`
   const style: HTMLAttributes<HTMLDivElement>['style'] = {
     position: 'absolute',
+    zIndex: 1,
     minWidth: 'fit-content',
     minHeight: 'fit-content',
     left: `${x}%`,
