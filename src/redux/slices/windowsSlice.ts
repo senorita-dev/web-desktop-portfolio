@@ -51,6 +51,7 @@ const windowsSlice = createSlice({
         return
       }
       state.windows = state.windows.filter(({ id }) => id !== windowId)
+      state.count -= 1
     },
     toggleMaximize: (
       state: WindowsState,
