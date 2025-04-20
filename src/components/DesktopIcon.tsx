@@ -15,8 +15,10 @@ interface ShortcutDesktopIconProps extends BaseDesktopIconProps {
   type: 'shortcut'
   url: string
 }
-interface FileDesktopIconProps extends BaseDesktopIconProps {
+type ApplicationType = 'Notepad'
+export interface FileDesktopIconProps extends BaseDesktopIconProps {
   type: 'file'
+  applicationType: ApplicationType
 }
 interface CustomDesktopIconProps extends BaseDesktopIconProps {
   type: 'custom'

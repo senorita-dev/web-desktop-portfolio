@@ -47,6 +47,7 @@ const initialState: DesktopIconsState = {
       col: 1,
       title: 'weaknesses',
       icon: NotepadIcon,
+      applicationType: 'Notepad',
     },
   ],
 }
