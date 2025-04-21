@@ -3,7 +3,7 @@
   background-color: #c3c3c3;
   display: flex;
   padding: 2px;
-  padding-top: 1px;
+  padding-top: 3px;
   border-top: 1px solid white;
   line-height: 1.7rem;
   font-size: 1rem;
@@ -33,6 +33,27 @@
 .taskbar_startButton_icon {
   height: 100%;
   width: 100%;
+}
+
+.taskbar_windowIcons {
+  display: flex;
+}
+
+.taskbar_windowIcon {
+  width: 10em;
+  display: flex;
+  align-items: center;
+}
+
+.taskbar_windowIcon_icon {
+  height: 100%;
+}
+
+.taskbar_windowIcon_text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.75rem;
 }
 
 .taskbar_datetime {
