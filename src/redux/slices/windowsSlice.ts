@@ -94,9 +94,26 @@ const windowsSlice = createSlice({
       }
       window.isMinimized = true
     },
+    toggleMinimize: (
+      state: WindowsState,
+      action: PayloadAction<WindowProps['id']>,
+    ) => {
+      const windowId = action.payload
+      const window = state.windows.find(({ id }) => id === windowId)
+      if (window === undefined) {
+        console.error('Window not found', windowId, state)
+        return
+      }
+      window.isMinimized = !window.isMinimized
+    },
   },
 })
 
-export const { createWindow, deleteWindow, toggleMaximize, minimizeWindow } =
-  windowsSlice.actions
+export const {
+  createWindow,
+  deleteWindow,
+  toggleMaximize,
+  minimizeWindow,
+  toggleMinimize,
+} = windowsSlice.actions
 export default windowsSlice.reducer

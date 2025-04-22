@@ -3,6 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import WindowsIcon from 'src/assets/icons/windows.png'
 import { useAppSelector } from 'src/redux/hooks'
 import { WindowProps } from 'src/components/Window'
+import { toggleMinimize } from 'src/redux/slices/windowsSlice'
+import { useDispatch } from 'react-redux'
 
 const Taskbar = () => {
   return (
@@ -37,11 +39,16 @@ const TaskbarWindowIcons = () => {
 
 type TaskbarWindowIconProps = WindowProps
 const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
-  const { file } = props
+  const { file, id } = props
   const title = `${file.title} - ${file.applicationType}`
+  const dispatch = useDispatch()
+  const onToggleMinimize = () => dispatch(toggleMinimize(id))
   return (
     <>
-      <div className={`${styles.taskbar_item} ${styles.taskbar_windowIcon}`}>
+      <div
+        className={`${styles.taskbar_item} ${styles.taskbar_windowIcon}`}
+        onClick={onToggleMinimize}
+      >
         <img src={file.icon} className={styles.taskbar_windowIcon_icon} />
         <span className={styles.taskbar_windowIcon_text}>{title}</span>
       </div>
