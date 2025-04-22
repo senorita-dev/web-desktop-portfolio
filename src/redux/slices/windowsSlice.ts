@@ -36,6 +36,7 @@ const windowsSlice = createSlice({
         height,
         id: uuidv4(),
         file: action.payload,
+        isMinimized: false,
       }
       state.windows.push(newWindow)
       state.count += 1
@@ -77,9 +78,25 @@ const windowsSlice = createSlice({
         window.height = 100
       }
     },
+    minimizeWindow: (
+      state: WindowsState,
+      action: PayloadAction<WindowProps['id']>,
+    ) => {
+      const windowId = action.payload
+      const window = state.windows.find(({ id }) => id === windowId)
+      if (window === undefined) {
+        console.error('Window not found', windowId, state)
+        return
+      }
+      if (window.isMinimized) {
+        console.error('Window already minimized', windowId, state)
+        return
+      }
+      window.isMinimized = true
+    },
   },
 })
 
-export const { createWindow, deleteWindow, toggleMaximize } =
+export const { createWindow, deleteWindow, toggleMaximize, minimizeWindow } =
   windowsSlice.actions
 export default windowsSlice.reducer

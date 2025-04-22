@@ -2,7 +2,7 @@ import styles from 'src/components/Taskbar.module.css'
 import { useEffect, useRef, useState } from 'react'
 import WindowsIcon from 'src/assets/icons/windows.png'
 import { useAppSelector } from 'src/redux/hooks'
-import { WindowProps } from './Window'
+import { WindowProps } from 'src/components/Window'
 
 const Taskbar = () => {
   return (

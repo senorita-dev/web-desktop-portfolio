@@ -29,9 +29,11 @@ const Windows = () => {
   const { windows } = state
   return (
     <div className={styles.windows}>
-      {windows.map((window) => (
-        <Window key={window.id} {...window} />
-      ))}
+      {windows
+        .filter((window) => !window.isMinimized)
+        .map((window) => (
+          <Window key={window.id} {...window} />
+        ))}
     </div>
   )
 }

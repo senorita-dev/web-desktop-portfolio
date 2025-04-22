@@ -1,7 +1,11 @@
 import { HTMLAttributes, memo } from 'react'
 import { useAppDispatch } from 'src/redux/hooks'
-import { deleteWindow, toggleMaximize } from 'src/redux/slices/windowsSlice'
-import { FileDesktopIconProps } from './DesktopIcon'
+import {
+  deleteWindow,
+  minimizeWindow,
+  toggleMaximize,
+} from 'src/redux/slices/windowsSlice'
+import { FileDesktopIconProps } from 'src/components/DesktopIcon'
 
 export interface WindowProps {
   id: string
@@ -10,6 +14,7 @@ export interface WindowProps {
   width: number
   height: number
   file: FileDesktopIconProps
+  isMinimized: boolean
 }
 const Window = memo((props: WindowProps) => {
   const { x, y, width, height, file, id } = props
@@ -25,6 +30,7 @@ const Window = memo((props: WindowProps) => {
     height: `${height}%`,
   }
   const dispatch = useAppDispatch()
+  const onMinimize = () => dispatch(minimizeWindow(id))
   const onMaximize = () => dispatch(toggleMaximize(id))
   const onClose = () => dispatch(deleteWindow(id))
   return (
@@ -32,7 +38,7 @@ const Window = memo((props: WindowProps) => {
       <div className="title-bar" style={{ minWidth: 'fit-content' }}>
         <div className="title-bar-text">{title}</div>
         <div className="title-bar-controls" style={{ minWidth: 'fit-content' }}>
-          <button aria-label="Minimize"></button>
+          <button aria-label="Minimize" onClick={onMinimize}></button>
           <button aria-label="Maximize" onClick={onMaximize}></button>
           <button aria-label="Close" onClick={onClose}></button>
         </div>
