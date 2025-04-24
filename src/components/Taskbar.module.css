@@ -36,7 +36,6 @@
 
 .taskbar_windowIcons {
   display: flex;
-  background-color: red;
   margin: 0 4px;
   overflow: hidden;
 }
@@ -45,7 +44,7 @@
   display: flex;
   align-items: center;
   flex-shrink: 1;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .taskbar_windowIcon_icon {
