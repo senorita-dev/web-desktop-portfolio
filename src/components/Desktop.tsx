@@ -1,12 +1,12 @@
 import styles from 'src/components/Desktop.module.css'
 import DesktopIcon from 'src/components/DesktopIcon'
-import Window from 'src/components/Window'
+import DesktopWindow from 'src/components/DesktopWindow'
 import { useAppSelector } from 'src/redux/hooks'
 
 const Desktop = () => {
   return (
     <div className={styles.desktop}>
-      <Windows />
+      <DesktopWindows />
       <DesktopIcons />
     </div>
   )
@@ -24,15 +24,19 @@ const DesktopIcons = () => {
   )
 }
 
-const Windows = () => {
+const DesktopWindows = () => {
   const state = useAppSelector((state) => state.windows)
-  const { windows } = state
+  const { desktopWindows } = state
   return (
-    <div className={styles.windows}>
-      {windows
-        .filter((window) => !window.isMinimized)
-        .map((window, index) => (
-          <Window key={window.id} window={window} zOrder={index} />
+    <div className={styles.desktopWindows}>
+      {desktopWindows
+        .filter((desktopWindow) => !desktopWindow.isMinimized)
+        .map((desktopWindow, index) => (
+          <DesktopWindow
+            key={desktopWindow.id}
+            desktopWindow={desktopWindow}
+            zOrder={index}
+          />
         ))}
     </div>
   )

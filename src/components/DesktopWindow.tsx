@@ -4,17 +4,17 @@ import {
   deleteWindow,
   minimizeWindow,
   toggleMaximize,
-  WindowState,
+  DesktopWindowState,
 } from 'src/redux/slices/windowsSlice'
 
 export interface WindowProps {
-  window: WindowState
+  desktopWindow: DesktopWindowState
   zOrder: number
 }
 
-const Window = memo((props: WindowProps) => {
-  const { window, zOrder } = props
-  const { x, y, width, height, file, id } = window
+const DesktopWindow = memo((props: WindowProps) => {
+  const { desktopWindow, zOrder } = props
+  const { x, y, width, height, file, id } = desktopWindow
   const title = `${file.title} - ${file.applicationType}`
   const style: HTMLAttributes<HTMLDivElement>['style'] = {
     position: 'absolute',
@@ -44,4 +44,4 @@ const Window = memo((props: WindowProps) => {
   )
 })
 
-export default Window
+export default DesktopWindow
