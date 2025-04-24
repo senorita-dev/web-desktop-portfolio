@@ -12,13 +12,20 @@ export interface WindowState {
   isMinimized: boolean
 }
 
+export interface TaskbarWindowState {
+  id: string
+  file: FileDesktopIconProps
+}
+
 interface WindowsState {
   windows: WindowState[]
+  taskbarWindows: TaskbarWindowState[]
   count: number
 }
 
 const initialState: WindowsState = {
   windows: [],
+  taskbarWindows: [],
   count: 0,
 }
 
@@ -38,6 +45,7 @@ const windowsSlice = createSlice({
       const defaultY = 20
       const x = (defaultX + deltaX) % (100 - width)
       const y = (defaultY + deltaY) % (100 - height)
+      const file = action.payload
       const newWindow: WindowState = {
         x,
         y,
@@ -48,6 +56,7 @@ const windowsSlice = createSlice({
         isMinimized: false,
       }
       state.windows.push(newWindow)
+      state.taskbarWindows.push({ id: newWindow.id, file })
       state.count += 1
     },
     deleteWindow: (
@@ -61,6 +70,9 @@ const windowsSlice = createSlice({
         return
       }
       state.windows = state.windows.filter(({ id }) => id !== windowId)
+      state.taskbarWindows = state.taskbarWindows.filter(
+        ({ id }) => id !== windowId,
+      )
       state.count -= 1
     },
     toggleMaximize: (
