@@ -2,9 +2,9 @@ import { HTMLAttributes, memo } from 'react'
 import { useAppDispatch } from 'src/redux/hooks'
 import {
   deleteWindow,
+  DesktopWindowState,
   minimizeWindow,
   toggleMaximize,
-  DesktopWindowState,
 } from 'src/redux/slices/windowsSlice'
 
 export interface WindowProps {

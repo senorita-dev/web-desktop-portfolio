@@ -1,9 +1,9 @@
-import styles from 'src/components/DesktopIcon.module.css'
 import { CSSProperties } from 'react'
 import ShortcutOverlay from 'src/assets/icons/overlay_shortcut.png'
-import { assertNever } from 'src/utils'
+import styles from 'src/components/DesktopIcon.module.css'
 import { useAppDispatch } from 'src/redux/hooks'
 import { createWindow } from 'src/redux/slices/windowsSlice'
+import { assertNever } from 'src/utils'
 
 interface BaseDesktopIconProps {
   row: number
