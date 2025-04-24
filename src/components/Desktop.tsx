@@ -31,8 +31,8 @@ const Windows = () => {
     <div className={styles.windows}>
       {windows
         .filter((window) => !window.isMinimized)
-        .map((window) => (
-          <Window key={window.id} {...window} />
+        .map((window, index) => (
+          <Window key={window.id} window={window} zOrder={index} />
         ))}
     </div>
   )

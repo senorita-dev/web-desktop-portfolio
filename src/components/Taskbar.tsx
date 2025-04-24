@@ -2,8 +2,7 @@ import styles from 'src/components/Taskbar.module.css'
 import { useEffect, useRef, useState } from 'react'
 import WindowsIcon from 'src/assets/icons/windows.png'
 import { useAppSelector } from 'src/redux/hooks'
-import { WindowProps } from 'src/components/Window'
-import { toggleMinimize } from 'src/redux/slices/windowsSlice'
+import { toggleMinimize, WindowState } from 'src/redux/slices/windowsSlice'
 import { useDispatch } from 'react-redux'
 
 const Taskbar = () => {
@@ -37,7 +36,7 @@ const TaskbarWindowIcons = () => {
   )
 }
 
-type TaskbarWindowIconProps = WindowProps
+type TaskbarWindowIconProps = WindowState
 const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
   const { file, id } = props
   const title = `${file.title} - ${file.applicationType}`

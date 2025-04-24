@@ -1,10 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { FileDesktopIconProps } from 'src/components/DesktopIcon'
-import { WindowProps } from 'src/components/Window'
 import { v4 as uuidv4 } from 'uuid'
 
+export interface WindowState {
+  id: string
+  x: number
+  y: number
+  width: number
+  height: number
+  file: FileDesktopIconProps
+  isMinimized: boolean
+}
+
 interface WindowsState {
-  windows: WindowProps[]
+  windows: WindowState[]
   count: number
 }
 
@@ -29,7 +38,7 @@ const windowsSlice = createSlice({
       const defaultY = 20
       const x = (defaultX + deltaX) % (100 - width)
       const y = (defaultY + deltaY) % (100 - height)
-      const newWindow: WindowProps = {
+      const newWindow: WindowState = {
         x,
         y,
         width,
@@ -43,7 +52,7 @@ const windowsSlice = createSlice({
     },
     deleteWindow: (
       state: WindowsState,
-      action: PayloadAction<WindowProps['id']>,
+      action: PayloadAction<WindowState['id']>,
     ) => {
       const windowId = action.payload
       const window = state.windows.find(({ id }) => id === windowId)
@@ -56,7 +65,7 @@ const windowsSlice = createSlice({
     },
     toggleMaximize: (
       state: WindowsState,
-      action: PayloadAction<WindowProps['id']>,
+      action: PayloadAction<WindowState['id']>,
     ) => {
       const windowId = action.payload
       const window = state.windows.find(({ id }) => id === windowId)
@@ -80,7 +89,7 @@ const windowsSlice = createSlice({
     },
     minimizeWindow: (
       state: WindowsState,
-      action: PayloadAction<WindowProps['id']>,
+      action: PayloadAction<WindowState['id']>,
     ) => {
       const windowId = action.payload
       const window = state.windows.find(({ id }) => id === windowId)
@@ -96,7 +105,7 @@ const windowsSlice = createSlice({
     },
     toggleMinimize: (
       state: WindowsState,
-      action: PayloadAction<WindowProps['id']>,
+      action: PayloadAction<WindowState['id']>,
     ) => {
       const windowId = action.payload
       const window = state.windows.find(({ id }) => id === windowId)
@@ -105,6 +114,12 @@ const windowsSlice = createSlice({
         return
       }
       window.isMinimized = !window.isMinimized
+      if (!window.isMinimized) {
+        state.windows = [
+          ...state.windows.filter(({ id }) => id !== window.id),
+          window,
+        ]
+      }
     },
   },
 })

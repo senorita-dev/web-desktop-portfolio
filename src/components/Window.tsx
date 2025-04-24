@@ -4,24 +4,21 @@ import {
   deleteWindow,
   minimizeWindow,
   toggleMaximize,
+  WindowState,
 } from 'src/redux/slices/windowsSlice'
-import { FileDesktopIconProps } from 'src/components/DesktopIcon'
 
 export interface WindowProps {
-  id: string
-  x: number
-  y: number
-  width: number
-  height: number
-  file: FileDesktopIconProps
-  isMinimized: boolean
+  window: WindowState
+  zOrder: number
 }
+
 const Window = memo((props: WindowProps) => {
-  const { x, y, width, height, file, id } = props
+  const { window, zOrder } = props
+  const { x, y, width, height, file, id } = window
   const title = `${file.title} - ${file.applicationType}`
   const style: HTMLAttributes<HTMLDivElement>['style'] = {
     position: 'absolute',
-    zIndex: 1,
+    zIndex: zOrder,
     minWidth: 'fit-content',
     minHeight: 'fit-content',
     left: `${x}%`,
