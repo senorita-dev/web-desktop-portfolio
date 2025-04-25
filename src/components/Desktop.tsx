@@ -35,7 +35,7 @@ const DesktopWindows = () => {
           <DesktopWindow
             key={desktopWindow.id}
             desktopWindow={desktopWindow}
-            zOrder={index}
+            zOrder={index + 1}
           />
         ))}
     </div>
