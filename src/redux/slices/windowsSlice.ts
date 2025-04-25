@@ -21,13 +21,11 @@ export interface TaskbarWindowState {
 interface WindowsState {
   desktopWindows: DesktopWindowState[]
   taskbarWindows: TaskbarWindowState[]
-  count: number
 }
 
 const initialState: WindowsState = {
   desktopWindows: [],
   taskbarWindows: [],
-  count: 0,
 }
 
 const windowsSlice = createSlice({
@@ -41,8 +39,9 @@ const windowsSlice = createSlice({
       const id = uuidv4()
       const width = 60
       const height = 60
-      const deltaX = state.count * 1
-      const deltaY = state.count * 2
+      const count = state.desktopWindows.length
+      const deltaX = count * 1
+      const deltaY = count * 2
       const defaultX = 20
       const defaultY = 20
       const x = (defaultX + deltaX) % (100 - width)
@@ -65,7 +64,6 @@ const windowsSlice = createSlice({
       }
       state.desktopWindows.push(desktopWindow)
       state.taskbarWindows.push(taskbarWindow)
-      state.count += 1
     },
     deleteWindow: (
       state: WindowsState,
@@ -85,7 +83,6 @@ const windowsSlice = createSlice({
       state.taskbarWindows = state.taskbarWindows.filter(
         ({ id }) => id !== windowId,
       )
-      state.count -= 1
     },
     toggleMaximize: (
       state: WindowsState,
