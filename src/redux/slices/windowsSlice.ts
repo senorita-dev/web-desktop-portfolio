@@ -15,6 +15,7 @@ export interface DesktopWindowState {
 export interface TaskbarWindowState {
   id: string
   file: FileDesktopIconProps
+  isMinimized: boolean
 }
 
 interface WindowsState {
@@ -37,6 +38,7 @@ const windowsSlice = createSlice({
       state: WindowsState,
       action: PayloadAction<FileDesktopIconProps>,
     ) => {
+      const id = uuidv4()
       const width = 60
       const height = 60
       const deltaX = state.count * 1
@@ -46,17 +48,23 @@ const windowsSlice = createSlice({
       const x = (defaultX + deltaX) % (100 - width)
       const y = (defaultY + deltaY) % (100 - height)
       const file = action.payload
-      const newWindow: DesktopWindowState = {
+      const isMinimized = false
+      const desktopWindow: DesktopWindowState = {
+        id,
         x,
         y,
         width,
         height,
-        id: uuidv4(),
-        file: action.payload,
-        isMinimized: false,
+        file,
+        isMinimized,
       }
-      state.desktopWindows.push(newWindow)
-      state.taskbarWindows.push({ id: newWindow.id, file })
+      const taskbarWindow: TaskbarWindowState = {
+        id,
+        file,
+        isMinimized,
+      }
+      state.desktopWindows.push(desktopWindow)
+      state.taskbarWindows.push(taskbarWindow)
       state.count += 1
     },
     deleteWindow: (
@@ -121,7 +129,19 @@ const windowsSlice = createSlice({
         console.error('DesktopWindow already minimized', windowId, state)
         return
       }
+      const taskbarWindow = state.taskbarWindows.find(
+        ({ id }) => id === windowId,
+      )
+      if (taskbarWindow === undefined) {
+        console.error('TaskbarWindow not found', windowId, state)
+        return
+      }
+      if (taskbarWindow.isMinimized) {
+        console.error('TaskbarWindow already minimized', windowId, state)
+        return
+      }
       desktopWindow.isMinimized = true
+      taskbarWindow.isMinimized = true
     },
     toggleMinimize: (
       state: WindowsState,
@@ -135,7 +155,15 @@ const windowsSlice = createSlice({
         console.error('DesktopWindow not found', windowId, state)
         return
       }
+      const taskbarWindow = state.taskbarWindows.find(
+        ({ id }) => id === windowId,
+      )
+      if (taskbarWindow === undefined) {
+        console.error('TaskbarWindow not found', windowId, state)
+        return
+      }
       desktopWindow.isMinimized = !desktopWindow.isMinimized
+      taskbarWindow.isMinimized = !taskbarWindow.isMinimized
       if (!desktopWindow.isMinimized) {
         state.desktopWindows = [
           ...state.desktopWindows.filter(({ id }) => id !== desktopWindow.id),

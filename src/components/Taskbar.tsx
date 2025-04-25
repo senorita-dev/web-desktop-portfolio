@@ -20,7 +20,9 @@ const Taskbar = () => {
 
 const TaskbarStartButton = () => {
   return (
-    <div className={`${styles.taskbar_item} ${styles.taskbar_startButton}`}>
+    <div
+      className={`${styles.taskbar_item} ${styles.taskbar_item__outset} ${styles.taskbar_startButton}`}
+    >
       <img src={WindowsIcon} className={styles.taskbar_startButton_icon} />
       <span>Start</span>
     </div>
@@ -41,14 +43,16 @@ const TaskbarWindowIcons = () => {
 
 type TaskbarWindowIconProps = TaskbarWindowState
 const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
-  const { file, id } = props
+  const { id, file, isMinimized } = props
   const title = `${file.title} - ${file.applicationType}`
   const dispatch = useDispatch()
   const onToggleMinimize = () => dispatch(toggleMinimize(id))
   return (
     <>
       <div
-        className={`${styles.taskbar_item} ${styles.taskbar_windowIcon}`}
+        className={`${styles.taskbar_item} ${
+          isMinimized ? styles.taskbar_item__outset : styles.taskbar_item__inset
+        } ${styles.taskbar_windowIcon}`}
         onClick={onToggleMinimize}
       >
         <img src={file.icon} className={styles.taskbar_windowIcon_icon} />
@@ -82,7 +86,9 @@ const TaskbarDateTime = () => {
   const time = timeFormatter.format(datetime).toUpperCase()
 
   return (
-    <div className={`${styles.taskbar_item} ${styles.taskbar_datetime}`}>
+    <div
+      className={`${styles.taskbar_item} ${styles.taskbar_item__inset} ${styles.taskbar_datetime}`}
+    >
       <span>{time}</span>
     </div>
   )
