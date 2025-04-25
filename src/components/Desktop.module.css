@@ -9,8 +9,8 @@
 .desktopIcons {
   display: grid;
   height: 100%;
-  grid-template-rows: repeat(auto-fit, 80px);
-  grid-template-columns: repeat(auto-fit, 80px);
+  grid-template-rows: repeat(auto-fill, 80px);
+  grid-template-columns: repeat(auto-fill, 80px);
   gap: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
