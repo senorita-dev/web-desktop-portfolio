@@ -1,9 +1,24 @@
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
+import {
+  horizontalListSortingStrategy,
+  SortableContext,
+  useSortable,
+} from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import WindowsIcon from 'src/assets/icons/windows.png'
 import styles from 'src/components/Taskbar.module.css'
 import { useAppSelector } from 'src/redux/hooks'
 import {
+  reorderTaskbarWindows,
   TaskbarWindowState,
   toggleMinimize,
 } from 'src/redux/slices/windowsSlice'
@@ -32,12 +47,40 @@ const TaskbarStartButton = () => {
 const TaskbarWindowIcons = () => {
   const state = useAppSelector((state) => state.windows)
   const { taskbarWindows } = state
+  const dispatch = useDispatch()
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+  )
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+
+    if (over && active.id !== over.id) {
+      const oldIndex = taskbarWindows.findIndex(
+        (window) => window.id === active.id,
+      )
+      const newIndex = taskbarWindows.findIndex(
+        (window) => window.id === over.id,
+      )
+      dispatch(reorderTaskbarWindows({ oldIndex, newIndex }))
+    }
+  }
   return (
-    <div className={styles.taskbar_windowIcons}>
-      {taskbarWindows.map((taskbarWindow) => (
-        <TaskbarWindowIcon key={taskbarWindow.id} {...taskbarWindow} />
-      ))}
-    </div>
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+    >
+      <SortableContext
+        items={taskbarWindows.map((window) => window.id)}
+        strategy={horizontalListSortingStrategy}
+      >
+        <div className={styles.taskbar_windowIcons}>
+          {taskbarWindows.map((taskbarWindow) => (
+            <TaskbarWindowIcon key={taskbarWindow.id} {...taskbarWindow} />
+          ))}
+        </div>
+      </SortableContext>
+    </DndContext>
   )
 }
 
@@ -47,18 +90,34 @@ const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
   const title = `${file.title} - ${file.applicationType}`
   const dispatch = useDispatch()
   const onToggleMinimize = () => dispatch(toggleMinimize(id))
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id })
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+  }
+
   return (
-    <>
-      <div
-        className={`${styles.taskbar_item} ${
-          isMinimized ? styles.taskbar_item__outset : styles.taskbar_item__inset
-        } ${styles.taskbar_windowIcon}`}
-        onClick={onToggleMinimize}
-      >
-        <img src={file.icon} className={styles.taskbar_windowIcon_icon} />
-        <span className={styles.taskbar_windowIcon_text}>{title}</span>
-      </div>
-    </>
+    <div
+      className={`${styles.taskbar_item} ${
+        isMinimized ? styles.taskbar_item__outset : styles.taskbar_item__inset
+      } ${styles.taskbar_windowIcon}`}
+      onClick={onToggleMinimize}
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+    >
+      <img src={file.icon} className={styles.taskbar_windowIcon_icon} />
+      <span className={styles.taskbar_windowIcon_text}>{title}</span>
+    </div>
   )
 }
 
