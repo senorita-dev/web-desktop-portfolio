@@ -6,6 +6,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
+import { restrictToParentElement } from '@dnd-kit/modifiers'
 import {
   horizontalListSortingStrategy,
   SortableContext,
@@ -69,6 +70,7 @@ const TaskbarWindowIcons = () => {
       sensors={sensors}
       collisionDetection={closestCenter}
       onDragEnd={handleDragEnd}
+      modifiers={[restrictToParentElement]}
     >
       <SortableContext
         items={taskbarWindows.map((window) => window.id)}
@@ -99,11 +101,10 @@ const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
     isDragging,
   } = useSortable({ id })
   const style = {
-    transform: CSS.Transform.toString(transform),
     transition,
+    transform: CSS.Transform.toString(transform),
     opacity: isDragging ? 0.5 : 1,
   }
-
   return (
     <div
       className={`${styles.taskbar_item} ${
