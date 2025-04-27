@@ -168,6 +168,14 @@ const windowsSlice = createSlice({
         ]
       }
     },
+    reorderTaskbarWindows: (
+      state: WindowsState,
+      action: PayloadAction<{ oldIndex: number; newIndex: number }>,
+    ) => {
+      const { oldIndex, newIndex } = action.payload
+      const [movedWindow] = state.taskbarWindows.splice(oldIndex, 1)
+      state.taskbarWindows.splice(newIndex, 0, movedWindow)
+    },
   },
 })
 
@@ -177,5 +185,6 @@ export const {
   toggleMaximize,
   minimizeWindow,
   toggleMinimize,
+  reorderTaskbarWindows,
 } = windowsSlice.actions
 export default windowsSlice.reducer
