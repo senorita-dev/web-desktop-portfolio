@@ -10,22 +10,15 @@ export interface DesktopWindowState {
   height: number
   file: FileDesktopIconProps
   isMinimized: boolean
-}
-
-export interface TaskbarWindowState {
-  id: string
-  file: FileDesktopIconProps
-  isMinimized: boolean
+  taskbarIndex: number
 }
 
 interface WindowsState {
   desktopWindows: DesktopWindowState[]
-  taskbarWindows: TaskbarWindowState[]
 }
 
 const initialState: WindowsState = {
   desktopWindows: [],
-  taskbarWindows: [],
 }
 
 const windowsSlice = createSlice({
@@ -46,24 +39,17 @@ const windowsSlice = createSlice({
       const defaultY = 20
       const x = (defaultX + deltaX) % (100 - width)
       const y = (defaultY + deltaY) % (100 - height)
-      const file = action.payload
-      const isMinimized = false
       const desktopWindow: DesktopWindowState = {
         id,
         x,
         y,
         width,
         height,
-        file,
-        isMinimized,
-      }
-      const taskbarWindow: TaskbarWindowState = {
-        id,
-        file,
-        isMinimized,
+        file: action.payload,
+        isMinimized: false,
+        taskbarIndex: count,
       }
       state.desktopWindows.push(desktopWindow)
-      state.taskbarWindows.push(taskbarWindow)
     },
     deleteWindow: (
       state: WindowsState,
@@ -77,12 +63,16 @@ const windowsSlice = createSlice({
         console.error('Window not found', windowId, state)
         return
       }
-      state.desktopWindows = state.desktopWindows.filter(
-        ({ id }) => id !== windowId,
-      )
-      state.taskbarWindows = state.taskbarWindows.filter(
-        ({ id }) => id !== windowId,
-      )
+      state.desktopWindows = state.desktopWindows
+        .filter(({ id }) => id !== windowId)
+        .map((desktopWindow) => {
+          const { taskbarIndex } = desktopWindow
+          if (taskbarIndex < desktopWindow.taskbarIndex) {
+            return desktopWindow
+          }
+          desktopWindow.taskbarIndex -= 1
+          return desktopWindow
+        })
     },
     toggleMaximize: (
       state: WindowsState,
@@ -126,19 +116,7 @@ const windowsSlice = createSlice({
         console.error('DesktopWindow already minimized', windowId, state)
         return
       }
-      const taskbarWindow = state.taskbarWindows.find(
-        ({ id }) => id === windowId,
-      )
-      if (taskbarWindow === undefined) {
-        console.error('TaskbarWindow not found', windowId, state)
-        return
-      }
-      if (taskbarWindow.isMinimized) {
-        console.error('TaskbarWindow already minimized', windowId, state)
-        return
-      }
       desktopWindow.isMinimized = true
-      taskbarWindow.isMinimized = true
     },
     toggleMinimize: (
       state: WindowsState,
@@ -152,15 +130,7 @@ const windowsSlice = createSlice({
         console.error('DesktopWindow not found', windowId, state)
         return
       }
-      const taskbarWindow = state.taskbarWindows.find(
-        ({ id }) => id === windowId,
-      )
-      if (taskbarWindow === undefined) {
-        console.error('TaskbarWindow not found', windowId, state)
-        return
-      }
       desktopWindow.isMinimized = !desktopWindow.isMinimized
-      taskbarWindow.isMinimized = !taskbarWindow.isMinimized
       if (!desktopWindow.isMinimized) {
         state.desktopWindows = [
           ...state.desktopWindows.filter(({ id }) => id !== desktopWindow.id),
@@ -173,8 +143,33 @@ const windowsSlice = createSlice({
       action: PayloadAction<{ oldIndex: number; newIndex: number }>,
     ) => {
       const { oldIndex, newIndex } = action.payload
-      const [movedWindow] = state.taskbarWindows.splice(oldIndex, 1)
-      state.taskbarWindows.splice(newIndex, 0, movedWindow)
+      if (oldIndex < 0 || oldIndex >= state.desktopWindows.length) {
+        console.error('oldIndex is out of index')
+        return
+      }
+      if (newIndex < 0 || newIndex >= state.desktopWindows.length) {
+        console.error('newIndex is out of index')
+        return
+      }
+      state.desktopWindows.map((desktopWindow) => {
+        const { taskbarIndex } = desktopWindow
+        if (taskbarIndex === oldIndex) {
+          desktopWindow.taskbarIndex = newIndex
+        } else if (
+          oldIndex < newIndex &&
+          oldIndex <= taskbarIndex &&
+          taskbarIndex <= newIndex
+        ) {
+          desktopWindow.taskbarIndex--
+        } else if (
+          oldIndex > newIndex &&
+          newIndex <= taskbarIndex &&
+          taskbarIndex <= oldIndex
+        ) {
+          desktopWindow.taskbarIndex++
+        }
+        return desktopWindow
+      })
     },
   },
 })
