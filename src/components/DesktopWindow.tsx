@@ -7,18 +7,13 @@ import {
   toggleMaximize,
 } from 'src/redux/slices/windowsSlice'
 
-export interface WindowProps {
-  desktopWindow: WindowState
-  zOrder: number
-}
-
-const DesktopWindow = memo((props: WindowProps) => {
-  const { desktopWindow, zOrder } = props
-  const { x, y, width, height, file, id } = desktopWindow
+type DesktopWindowProps = WindowState
+const DesktopWindow = memo((props: DesktopWindowProps) => {
+  const { id, file, x, y, width, height, desktopIndex } = props
   const title = `${file.title} - ${file.applicationType}`
   const style: HTMLAttributes<HTMLDivElement>['style'] = {
     position: 'absolute',
-    zIndex: zOrder,
+    zIndex: desktopIndex + 1,
     minWidth: 'fit-content',
     minHeight: 'fit-content',
     left: `${x}%`,

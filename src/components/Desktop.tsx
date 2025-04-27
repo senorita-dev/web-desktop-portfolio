@@ -30,13 +30,9 @@ const DesktopWindows = () => {
   return (
     <div className={styles.desktopWindows}>
       {windows
-        .filter((windowItem) => !windowItem.isMinimized)
-        .map((windowItem, index) => (
-          <DesktopWindow
-            key={windowItem.id}
-            desktopWindow={windowItem}
-            zOrder={index + 1}
-          />
+        .filter(({ desktopIndex }) => desktopIndex >= 0)
+        .map((windowItem) => (
+          <DesktopWindow key={windowItem.id} {...windowItem} />
         ))}
     </div>
   )

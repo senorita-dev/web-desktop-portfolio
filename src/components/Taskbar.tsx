@@ -48,9 +48,12 @@ const TaskbarStartButton = () => {
 const TaskbarWindowIcons = () => {
   const state = useAppSelector((state) => state.windows)
   const { windows } = state
-  const taskbarWindows = [...windows].sort(
-    (a, b) => a.taskbarIndex - b.taskbarIndex,
-  )
+  const taskbarWindows = [...windows]
+    .sort((a, b) => a.taskbarIndex - b.taskbarIndex)
+    .map((windowItem) => ({
+      ...windowItem,
+      isMinimized: windowItem.desktopIndex < 0,
+    }))
   const dispatch = useDispatch()
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
