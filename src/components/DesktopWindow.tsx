@@ -2,13 +2,13 @@ import { HTMLAttributes, memo } from 'react'
 import { useAppDispatch } from 'src/redux/hooks'
 import {
   deleteWindow,
-  DesktopWindowState,
+  WindowState,
   minimizeWindow,
   toggleMaximize,
 } from 'src/redux/slices/windowsSlice'
 
 export interface WindowProps {
-  desktopWindow: DesktopWindowState
+  desktopWindow: WindowState
   zOrder: number
 }
 

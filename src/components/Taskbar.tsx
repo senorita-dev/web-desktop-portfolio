@@ -47,8 +47,8 @@ const TaskbarStartButton = () => {
 
 const TaskbarWindowIcons = () => {
   const state = useAppSelector((state) => state.windows)
-  const { desktopWindows } = state
-  const taskbarWindows = [...desktopWindows].sort(
+  const { windows } = state
+  const taskbarWindows = [...windows].sort(
     (a, b) => a.taskbarIndex - b.taskbarIndex,
   )
   const dispatch = useDispatch()

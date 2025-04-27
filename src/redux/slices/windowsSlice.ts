@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { FileDesktopIconProps } from 'src/components/DesktopIcon'
 import { v4 as uuidv4 } from 'uuid'
 
-export interface DesktopWindowState {
+export interface WindowState {
   id: string
   x: number
   y: number
@@ -14,11 +14,11 @@ export interface DesktopWindowState {
 }
 
 interface WindowsState {
-  desktopWindows: DesktopWindowState[]
+  windows: WindowState[]
 }
 
 const initialState: WindowsState = {
-  desktopWindows: [],
+  windows: [],
 }
 
 const windowsSlice = createSlice({
@@ -32,14 +32,14 @@ const windowsSlice = createSlice({
       const id = uuidv4()
       const width = 60
       const height = 60
-      const count = state.desktopWindows.length
+      const count = state.windows.length
       const deltaX = count * 1
       const deltaY = count * 2
       const defaultX = 20
       const defaultY = 20
       const x = (defaultX + deltaX) % (100 - width)
       const y = (defaultY + deltaY) % (100 - height)
-      const desktopWindow: DesktopWindowState = {
+      const windowItem: WindowState = {
         id,
         x,
         y,
@@ -49,92 +49,84 @@ const windowsSlice = createSlice({
         isMinimized: false,
         taskbarIndex: count,
       }
-      state.desktopWindows.push(desktopWindow)
+      state.windows.push(windowItem)
     },
     deleteWindow: (
       state: WindowsState,
-      action: PayloadAction<DesktopWindowState['id']>,
+      action: PayloadAction<WindowState['id']>,
     ) => {
       const windowId = action.payload
-      const desktopWindow = state.desktopWindows.find(
-        ({ id }) => id === windowId,
-      )
-      if (desktopWindow === undefined) {
+      const windowItem = state.windows.find(({ id }) => id === windowId)
+      if (windowItem === undefined) {
         console.error('Window not found', windowId, state)
         return
       }
-      state.desktopWindows = state.desktopWindows
+      state.windows = state.windows
         .filter(({ id }) => id !== windowId)
-        .map((desktopWindow) => {
-          const { taskbarIndex } = desktopWindow
-          if (taskbarIndex < desktopWindow.taskbarIndex) {
-            return desktopWindow
+        .map((windowItem) => {
+          const { taskbarIndex } = windowItem
+          if (taskbarIndex < windowItem.taskbarIndex) {
+            return windowItem
           }
-          desktopWindow.taskbarIndex -= 1
-          return desktopWindow
+          windowItem.taskbarIndex -= 1
+          return windowItem
         })
     },
     toggleMaximize: (
       state: WindowsState,
-      action: PayloadAction<DesktopWindowState['id']>,
+      action: PayloadAction<WindowState['id']>,
     ) => {
       const windowId = action.payload
-      const desktopWindow = state.desktopWindows.find(
-        ({ id }) => id === windowId,
-      )
-      if (desktopWindow === undefined) {
-        console.error('DesktopWindow not found', windowId, state)
+      const windowItem = state.windows.find(({ id }) => id === windowId)
+      if (windowItem === undefined) {
+        console.error('Window not found', windowId, state)
         return
       }
-      const { x, y, width, height } = desktopWindow
+      const { x, y, width, height } = windowItem
       const isMaximized = x === 0 && y === 0 && width === 100 && height === 100
       if (isMaximized) {
-        desktopWindow.x = 20
-        desktopWindow.y = 20
-        desktopWindow.width = 60
-        desktopWindow.height = 60
+        windowItem.x = 20
+        windowItem.y = 20
+        windowItem.width = 60
+        windowItem.height = 60
       } else {
-        desktopWindow.x = 0
-        desktopWindow.y = 0
-        desktopWindow.width = 100
-        desktopWindow.height = 100
+        windowItem.x = 0
+        windowItem.y = 0
+        windowItem.width = 100
+        windowItem.height = 100
       }
     },
     minimizeWindow: (
       state: WindowsState,
-      action: PayloadAction<DesktopWindowState['id']>,
+      action: PayloadAction<WindowState['id']>,
     ) => {
       const windowId = action.payload
-      const desktopWindow = state.desktopWindows.find(
-        ({ id }) => id === windowId,
-      )
-      if (desktopWindow === undefined) {
-        console.error('DesktopWindow not found', windowId, state)
+      const windowItem = state.windows.find(({ id }) => id === windowId)
+      if (windowItem === undefined) {
+        console.error('Window not found', windowId, state)
         return
       }
-      if (desktopWindow.isMinimized) {
-        console.error('DesktopWindow already minimized', windowId, state)
+      if (windowItem.isMinimized) {
+        console.error('Window already minimized', windowId, state)
         return
       }
-      desktopWindow.isMinimized = true
+      windowItem.isMinimized = true
     },
     toggleMinimize: (
       state: WindowsState,
-      action: PayloadAction<DesktopWindowState['id']>,
+      action: PayloadAction<WindowState['id']>,
     ) => {
       const windowId = action.payload
-      const desktopWindow = state.desktopWindows.find(
-        ({ id }) => id === windowId,
-      )
-      if (desktopWindow === undefined) {
-        console.error('DesktopWindow not found', windowId, state)
+      const windowItem = state.windows.find(({ id }) => id === windowId)
+      if (windowItem === undefined) {
+        console.error('Window not found', windowId, state)
         return
       }
-      desktopWindow.isMinimized = !desktopWindow.isMinimized
-      if (!desktopWindow.isMinimized) {
-        state.desktopWindows = [
-          ...state.desktopWindows.filter(({ id }) => id !== desktopWindow.id),
-          desktopWindow,
+      windowItem.isMinimized = !windowItem.isMinimized
+      if (!windowItem.isMinimized) {
+        state.windows = [
+          ...state.windows.filter(({ id }) => id !== windowItem.id),
+          windowItem,
         ]
       }
     },
@@ -143,32 +135,32 @@ const windowsSlice = createSlice({
       action: PayloadAction<{ oldIndex: number; newIndex: number }>,
     ) => {
       const { oldIndex, newIndex } = action.payload
-      if (oldIndex < 0 || oldIndex >= state.desktopWindows.length) {
-        console.error('oldIndex is out of index')
+      if (oldIndex < 0 || oldIndex >= state.windows.length) {
+        console.error('oldIndex is out of index', oldIndex)
         return
       }
-      if (newIndex < 0 || newIndex >= state.desktopWindows.length) {
-        console.error('newIndex is out of index')
+      if (newIndex < 0 || newIndex >= state.windows.length) {
+        console.error('newIndex is out of index', newIndex)
         return
       }
-      state.desktopWindows.map((desktopWindow) => {
-        const { taskbarIndex } = desktopWindow
+      state.windows.map((windowItem) => {
+        const { taskbarIndex } = windowItem
         if (taskbarIndex === oldIndex) {
-          desktopWindow.taskbarIndex = newIndex
+          windowItem.taskbarIndex = newIndex
         } else if (
           oldIndex < newIndex &&
           oldIndex <= taskbarIndex &&
           taskbarIndex <= newIndex
         ) {
-          desktopWindow.taskbarIndex--
+          windowItem.taskbarIndex--
         } else if (
           oldIndex > newIndex &&
           newIndex <= taskbarIndex &&
           taskbarIndex <= oldIndex
         ) {
-          desktopWindow.taskbarIndex++
+          windowItem.taskbarIndex++
         }
-        return desktopWindow
+        return windowItem
       })
     },
   },
