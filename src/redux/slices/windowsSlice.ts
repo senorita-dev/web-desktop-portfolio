@@ -8,6 +8,7 @@ export interface WindowState {
   y: number
   width: number
   height: number
+  isMaximized: boolean
   file: FileDesktopIconProps
   desktopIndex: number
   taskbarIndex: number
@@ -45,6 +46,7 @@ const windowsSlice = createSlice({
         y,
         width,
         height,
+        isMaximized: false,
         file: action.payload,
         desktopIndex: count,
         taskbarIndex: count,
@@ -84,19 +86,7 @@ const windowsSlice = createSlice({
         console.error('Window not found', windowId, state)
         return
       }
-      const { x, y, width, height } = windowItem
-      const isMaximized = x === 0 && y === 0 && width === 100 && height === 100
-      if (isMaximized) {
-        windowItem.x = 20
-        windowItem.y = 20
-        windowItem.width = 60
-        windowItem.height = 60
-      } else {
-        windowItem.x = 0
-        windowItem.y = 0
-        windowItem.width = 100
-        windowItem.height = 100
-      }
+      windowItem.isMaximized = !windowItem.isMaximized
     },
     minimizeWindow: (
       state: WindowsState,
