@@ -13,7 +13,7 @@ import {
   useSortable,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { useEffect, useRef, useState } from 'react'
+import { CSSProperties, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import WindowsIcon from 'src/assets/icons/windows.png'
 import { FileDesktopIconProps } from 'src/components/DesktopIcon'
@@ -47,13 +47,14 @@ const TaskbarStartButton = () => {
 
 const TaskbarWindowIcons = () => {
   const state = useAppSelector((state) => state.windows)
-  const { windows } = state
-  const taskbarWindows = [...windows]
-    .sort((a, b) => a.taskbarIndex - b.taskbarIndex)
-    .map((windowItem) => ({
-      ...windowItem,
-      isMinimized: windowItem.desktopIndex < 0,
-    }))
+  const { windows, isWindowFocused } = state
+  const taskbarWindows = [...windows].sort(
+    (a, b) => a.taskbarIndex - b.taskbarIndex,
+  )
+  const topDesktopWindow = [...windows]
+    .sort((a, b) => a.desktopIndex - b.desktopIndex)
+    .pop()
+  const focusedWindow = isWindowFocused ? topDesktopWindow : undefined
   const dispatch = useDispatch()
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
@@ -85,12 +86,12 @@ const TaskbarWindowIcons = () => {
         strategy={horizontalListSortingStrategy}
       >
         <div className={styles.taskbar_windowIcons}>
-          {taskbarWindows.map(({ id, file, isMinimized }) => (
+          {taskbarWindows.map(({ id, file }) => (
             <TaskbarWindowIcon
               key={id}
               id={id}
               file={file}
-              isMinimized={isMinimized}
+              isWindowFocused={id === focusedWindow?.id}
             />
           ))}
         </div>
@@ -102,10 +103,10 @@ const TaskbarWindowIcons = () => {
 interface TaskbarWindowIconProps {
   id: string
   file: FileDesktopIconProps
-  isMinimized: boolean
+  isWindowFocused: boolean
 }
 const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
-  const { id, file, isMinimized } = props
+  const { id, file, isWindowFocused } = props
   const title = `${file.title} - ${file.applicationType}`
   const dispatch = useDispatch()
   const onToggleMinimize = () => dispatch(toggleMinimize(id))
@@ -117,7 +118,7 @@ const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
     transition,
     isDragging,
   } = useSortable({ id })
-  const style = {
+  const style: CSSProperties = {
     transition,
     transform: CSS.Transform.toString(transform),
     opacity: isDragging ? 0.5 : 1,
@@ -125,7 +126,9 @@ const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
   return (
     <div
       className={`${styles.taskbar_item} ${
-        isMinimized ? styles.taskbar_item__outset : styles.taskbar_item__inset
+        isWindowFocused
+          ? styles.taskbar_item__inset
+          : styles.taskbar_item__outset
       } ${styles.taskbar_windowIcon}`}
       onClick={onToggleMinimize}
       ref={setNodeRef}
