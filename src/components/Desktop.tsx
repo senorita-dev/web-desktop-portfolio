@@ -26,17 +26,13 @@ const DesktopIcons = () => {
 
 const DesktopWindows = () => {
   const state = useAppSelector((state) => state.windows)
-  const { desktopWindows } = state
+  const { windows } = state
   return (
     <div className={styles.desktopWindows}>
-      {desktopWindows
-        .filter((desktopWindow) => !desktopWindow.isMinimized)
-        .map((desktopWindow, index) => (
-          <DesktopWindow
-            key={desktopWindow.id}
-            desktopWindow={desktopWindow}
-            zOrder={index + 1}
-          />
+      {windows
+        .filter(({ desktopIndex }) => desktopIndex >= 0)
+        .map((windowItem) => (
+          <DesktopWindow key={windowItem.id} {...windowItem} />
         ))}
     </div>
   )

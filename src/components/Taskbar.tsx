@@ -16,11 +16,11 @@ import { CSS } from '@dnd-kit/utilities'
 import { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import WindowsIcon from 'src/assets/icons/windows.png'
+import { FileDesktopIconProps } from 'src/components/DesktopIcon'
 import styles from 'src/components/Taskbar.module.css'
 import { useAppSelector } from 'src/redux/hooks'
 import {
   reorderTaskbarWindows,
-  TaskbarWindowState,
   toggleMinimize,
 } from 'src/redux/slices/windowsSlice'
 
@@ -47,21 +47,29 @@ const TaskbarStartButton = () => {
 
 const TaskbarWindowIcons = () => {
   const state = useAppSelector((state) => state.windows)
-  const { taskbarWindows } = state
+  const { windows } = state
+  const taskbarWindows = [...windows]
+    .sort((a, b) => a.taskbarIndex - b.taskbarIndex)
+    .map((windowItem) => ({
+      ...windowItem,
+      isMinimized: windowItem.desktopIndex < 0,
+    }))
   const dispatch = useDispatch()
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
   )
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
-
     if (over && active.id !== over.id) {
-      const oldIndex = taskbarWindows.findIndex(
+      const oldIndex = taskbarWindows.find(
         (window) => window.id === active.id,
-      )
-      const newIndex = taskbarWindows.findIndex(
+      )?.taskbarIndex
+      const newIndex = taskbarWindows.find(
         (window) => window.id === over.id,
-      )
+      )?.taskbarIndex
+      if (oldIndex === undefined || newIndex === undefined) {
+        return
+      }
       dispatch(reorderTaskbarWindows({ oldIndex, newIndex }))
     }
   }
@@ -77,8 +85,13 @@ const TaskbarWindowIcons = () => {
         strategy={horizontalListSortingStrategy}
       >
         <div className={styles.taskbar_windowIcons}>
-          {taskbarWindows.map((taskbarWindow) => (
-            <TaskbarWindowIcon key={taskbarWindow.id} {...taskbarWindow} />
+          {taskbarWindows.map(({ id, file, isMinimized }) => (
+            <TaskbarWindowIcon
+              key={id}
+              id={id}
+              file={file}
+              isMinimized={isMinimized}
+            />
           ))}
         </div>
       </SortableContext>
@@ -86,7 +99,11 @@ const TaskbarWindowIcons = () => {
   )
 }
 
-type TaskbarWindowIconProps = TaskbarWindowState
+interface TaskbarWindowIconProps {
+  id: string
+  file: FileDesktopIconProps
+  isMinimized: boolean
+}
 const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
   const { id, file, isMinimized } = props
   const title = `${file.title} - ${file.applicationType}`
