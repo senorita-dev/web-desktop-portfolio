@@ -7,9 +7,21 @@ import {
   toggleMaximize,
 } from 'src/redux/slices/windowsSlice'
 
-type DesktopWindowProps = WindowState
+interface DesktopWindowProps extends WindowState {
+  isWindowFocused: boolean
+}
 const DesktopWindow = memo((props: DesktopWindowProps) => {
-  const { id, file, x, y, width, height, isMaximized, desktopIndex } = props
+  const {
+    id,
+    file,
+    x,
+    y,
+    width,
+    height,
+    isMaximized,
+    desktopIndex,
+    isWindowFocused,
+  } = props
   const title = `${file.title} - ${file.applicationType}`
   const style: HTMLAttributes<HTMLDivElement>['style'] = {
     position: 'absolute',
@@ -27,7 +39,10 @@ const DesktopWindow = memo((props: DesktopWindowProps) => {
   const onClose = () => dispatch(deleteWindow(id))
   return (
     <div className="window" style={style}>
-      <div className="title-bar" style={{ minWidth: 'fit-content' }}>
+      <div
+        className={`title-bar ${isWindowFocused ? '' : 'inactive'}`}
+        style={{ minWidth: 'fit-content' }}
+      >
         <div className="title-bar-text">{title}</div>
         <div className="title-bar-controls" style={{ minWidth: 'fit-content' }}>
           <button aria-label="Minimize" onClick={onMinimize}></button>

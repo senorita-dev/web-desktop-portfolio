@@ -26,13 +26,21 @@ const DesktopIcons = () => {
 
 const DesktopWindows = () => {
   const state = useAppSelector((state) => state.windows)
-  const { windows } = state
+  const { windows, isWindowFocused } = state
+  const topDesktopWindow = [...windows]
+    .sort((a, b) => a.desktopIndex - b.desktopIndex)
+    .pop()
+  const focusedWindow = isWindowFocused ? topDesktopWindow : undefined
   return (
     <div className={styles.desktopWindows}>
       {windows
         .filter(({ desktopIndex }) => desktopIndex >= 0)
         .map((windowItem) => (
-          <DesktopWindow key={windowItem.id} {...windowItem} />
+          <DesktopWindow
+            key={windowItem.id}
+            isWindowFocused={windowItem.id === focusedWindow?.id}
+            {...windowItem}
+          />
         ))}
     </div>
   )
