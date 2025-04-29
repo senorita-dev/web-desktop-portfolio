@@ -16,10 +16,12 @@ export interface WindowState {
 
 interface WindowsState {
   windows: WindowState[]
+  isWindowFocused: boolean
 }
 
 const initialState: WindowsState = {
   windows: [],
+  isWindowFocused: false,
 }
 
 const windowsSlice = createSlice({
@@ -52,6 +54,7 @@ const windowsSlice = createSlice({
         taskbarIndex: count,
       }
       state.windows.push(windowItem)
+      state.isWindowFocused = true
     },
     deleteWindow: (
       state: WindowsState,
@@ -75,6 +78,10 @@ const windowsSlice = createSlice({
           }
           return windowItem
         })
+      const unMinimizedWindowCount = state.windows.filter(
+        ({ taskbarIndex }) => taskbarIndex >= 0,
+      ).length
+      state.isWindowFocused = unMinimizedWindowCount > 0
     },
     toggleMaximize: (
       state: WindowsState,
@@ -87,6 +94,7 @@ const windowsSlice = createSlice({
         return
       }
       windowItem.isMaximized = !windowItem.isMaximized
+      state.isWindowFocused = true
     },
     minimizeWindow: (
       state: WindowsState,
@@ -98,9 +106,11 @@ const windowsSlice = createSlice({
         console.error('Window not found', windowId, state)
         return
       }
-      console.log(windowItem.desktopIndex)
       helperMinimizeWindow(state, windowItem)
-      console.log(windowItem.desktopIndex)
+      const unMinimizedWindowCount = state.windows.filter(
+        ({ taskbarIndex }) => taskbarIndex >= 0,
+      ).length
+      state.isWindowFocused = unMinimizedWindowCount > 0
     },
     toggleMinimize: (
       state: WindowsState,
@@ -112,13 +122,14 @@ const windowsSlice = createSlice({
         console.error('Window not found', windowId, state)
         return
       }
+      const unMinimizedWindowCount = state.windows.filter(
+        ({ taskbarIndex }) => taskbarIndex >= 0,
+      ).length
       const isMinimized = windowItem.desktopIndex < 0
       if (!isMinimized) {
         helperMinimizeWindow(state, windowItem)
+        state.isWindowFocused = unMinimizedWindowCount - 1 > 0
       } else {
-        const unMinimizedWindowCount = state.windows.filter(
-          ({ taskbarIndex }) => taskbarIndex >= 0,
-        ).length
         windowItem.desktopIndex = unMinimizedWindowCount - 1
       }
     },
