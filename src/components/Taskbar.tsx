@@ -13,7 +13,13 @@ import {
   useSortable,
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { CSSProperties, useEffect, useRef, useState } from 'react'
+import {
+  CSSProperties,
+  MouseEventHandler,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import { useDispatch } from 'react-redux'
 import WindowsIcon from 'src/assets/icons/windows.png'
 import { FileDesktopIconProps } from 'src/components/DesktopIcon'
@@ -23,11 +29,22 @@ import {
   focusWindow,
   minimizeWindow,
   reorderTaskbarWindows,
+  unFocusWindows,
 } from 'src/redux/slices/windowsSlice'
 
 const Taskbar = () => {
+  const dispatch = useDispatch()
+  const onUnFocusWindows: MouseEventHandler<HTMLDivElement> = (event) => {
+    const targetElement = event.target as HTMLElement
+    const isTaskbarItem =
+      targetElement.closest(`.${styles.taskbar_item}`) !== null
+    if (isTaskbarItem) {
+      return
+    }
+    dispatch(unFocusWindows())
+  }
   return (
-    <div className={styles.taskbar}>
+    <div className={styles.taskbar} onClick={onUnFocusWindows}>
       <TaskbarStartButton />
       <TaskbarWindowIcons />
       <TaskbarDateTime />
