@@ -20,8 +20,9 @@ import { FileDesktopIconProps } from 'src/components/DesktopIcon'
 import styles from 'src/components/Taskbar.module.css'
 import { useAppSelector } from 'src/redux/hooks'
 import {
+  focusWindow,
+  minimizeWindow,
   reorderTaskbarWindows,
-  toggleMinimize,
 } from 'src/redux/slices/windowsSlice'
 
 const Taskbar = () => {
@@ -109,7 +110,13 @@ const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
   const { id, file, isWindowFocused } = props
   const title = `${file.title} - ${file.applicationType}`
   const dispatch = useDispatch()
-  const onToggleMinimize = () => dispatch(toggleMinimize(id))
+  const onTaskbarIconClick = () => {
+    if (isWindowFocused) {
+      dispatch(minimizeWindow(id))
+    } else {
+      dispatch(focusWindow(id))
+    }
+  }
   const {
     attributes,
     listeners,
@@ -130,7 +137,7 @@ const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
           ? styles.taskbar_item__inset
           : styles.taskbar_item__outset
       } ${styles.taskbar_windowIcon}`}
-      onClick={onToggleMinimize}
+      onClick={onTaskbarIconClick}
       ref={setNodeRef}
       style={style}
       {...attributes}
