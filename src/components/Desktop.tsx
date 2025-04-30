@@ -1,11 +1,30 @@
+import { MouseEventHandler } from 'react'
+import { useDispatch } from 'react-redux'
 import styles from 'src/components/Desktop.module.css'
+import desktopIconStyles from 'src/components/DesktopIcon.module.css'
 import DesktopIcon from 'src/components/DesktopIcon'
 import DesktopWindow from 'src/components/DesktopWindow'
 import { useAppSelector } from 'src/redux/hooks'
+import { unFocusWindows } from 'src/redux/slices/windowsSlice'
 
 const Desktop = () => {
+  const dispatch = useDispatch()
+  const onUnFocusWindows: MouseEventHandler<HTMLDivElement> = (event) => {
+    const targetElement = event.target as HTMLElement
+    const isDesktopWindow = targetElement.closest('.window') !== null
+    if (isDesktopWindow) {
+      return
+    }
+    const selector = `.${desktopIconStyles.desktopIcon}[data-window-opener=true]`
+    const isDesktopIconAndWindowOpener =
+      targetElement.closest(selector) !== null
+    if (isDesktopIconAndWindowOpener) {
+      return
+    }
+    dispatch(unFocusWindows())
+  }
   return (
-    <div className={styles.desktop}>
+    <div className={styles.desktop} onClick={onUnFocusWindows}>
       <DesktopWindows />
       <DesktopIcons />
     </div>

@@ -40,8 +40,8 @@ const DesktopWindow = memo((props: DesktopWindowProps) => {
       return
     }
     const targetElement = event.target as HTMLElement
-    const isControlsDiv = targetElement.closest('.title-bar-controls')
-    if (isControlsDiv !== null) {
+    const isControlsDiv = targetElement.closest('.title-bar-controls') !== null
+    if (isControlsDiv) {
       return
     }
     dispatch(focusWindow(id))

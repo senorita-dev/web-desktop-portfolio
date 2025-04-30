@@ -69,7 +69,12 @@ const FileDesktopIcon = (props: FileDesktopIconProps) => {
   const dispatch = useAppDispatch()
   const onOpen = () => dispatch(createWindow(props))
   return (
-    <div className={styles.desktopIcon} style={style} onClick={onOpen}>
+    <div
+      className={styles.desktopIcon}
+      style={style}
+      onClick={onOpen}
+      data-window-opener={true}
+    >
       <div className={styles.desktopIcon_imageContainer}>
         <img src={icon} className={styles.desktopIcon_image} />
       </div>
