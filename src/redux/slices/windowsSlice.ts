@@ -152,6 +152,9 @@ const windowsSlice = createSlice({
       })
       windowItem.desktopIndex = unMinimizedWindowCount
     },
+    unFocusWindows: (state: WindowsState) => {
+      state.isWindowFocused = false
+    },
     reorderTaskbarWindows: (
       state: WindowsState,
       action: PayloadAction<{ oldIndex: number; newIndex: number }>,
@@ -194,6 +197,7 @@ export const {
   toggleMaximize,
   minimizeWindow,
   focusWindow,
+  unFocusWindows,
   reorderTaskbarWindows,
 } = windowsSlice.actions
 export default windowsSlice.reducer
