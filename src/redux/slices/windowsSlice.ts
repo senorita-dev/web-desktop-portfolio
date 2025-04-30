@@ -133,6 +133,22 @@ const windowsSlice = createSlice({
         windowItem.desktopIndex = unMinimizedWindowCount - 1
       }
     },
+    focusWindow: (
+      state: WindowsState,
+      action: PayloadAction<WindowState['id']>,
+    ) => {
+      const windowId = action.payload
+      const windowItem = state.windows.find(({ id }) => id === windowId)
+      if (windowItem === undefined) {
+        console.error('Window not found', windowId, state)
+        return
+      }
+      state.isWindowFocused = true
+      const unMinimizedWindowCount = state.windows.filter(
+        ({ taskbarIndex }) => taskbarIndex >= 0,
+      ).length
+      windowItem.desktopIndex = unMinimizedWindowCount
+    },
     reorderTaskbarWindows: (
       state: WindowsState,
       action: PayloadAction<{ oldIndex: number; newIndex: number }>,
@@ -189,6 +205,7 @@ export const {
   toggleMaximize,
   minimizeWindow,
   toggleMinimize,
+  focusWindow,
   reorderTaskbarWindows,
 } = windowsSlice.actions
 export default windowsSlice.reducer
