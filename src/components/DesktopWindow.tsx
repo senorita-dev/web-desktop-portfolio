@@ -1,10 +1,11 @@
-import { HTMLAttributes, memo } from 'react'
+import { HTMLAttributes, memo, MouseEventHandler } from 'react'
 import { useAppDispatch } from 'src/redux/hooks'
 import {
   deleteWindow,
-  WindowState,
+  focusWindow,
   minimizeWindow,
   toggleMaximize,
+  WindowState,
 } from 'src/redux/slices/windowsSlice'
 
 interface DesktopWindowProps extends WindowState {
@@ -34,11 +35,22 @@ const DesktopWindow = memo((props: DesktopWindowProps) => {
     height: `${isMaximized ? 100 : height}%`,
   }
   const dispatch = useAppDispatch()
+  const onFocus: MouseEventHandler<HTMLDivElement> = (event) => {
+    if (isWindowFocused) {
+      return
+    }
+    const targetElement = event.target as HTMLElement
+    const isControlsDiv = targetElement.closest('.title-bar-controls')
+    if (isControlsDiv !== null) {
+      return
+    }
+    dispatch(focusWindow(id))
+  }
   const onMinimize = () => dispatch(minimizeWindow(id))
   const onMaximize = () => dispatch(toggleMaximize(id))
   const onClose = () => dispatch(deleteWindow(id))
   return (
-    <div className="window" style={style}>
+    <div className="window" style={style} onClick={onFocus}>
       <div
         className={`title-bar ${isWindowFocused ? '' : 'inactive'}`}
         style={{ minWidth: 'fit-content' }}
