@@ -50,7 +50,9 @@ const windowsSlice = createSlice({
         height,
         isMaximized: false,
         file: action.payload,
-        desktopIndex: count,
+        desktopIndex: state.windows.filter(
+          ({ desktopIndex }) => desktopIndex >= 0,
+        ).length,
         taskbarIndex: count,
       }
       state.windows.push(windowItem)
@@ -66,12 +68,15 @@ const windowsSlice = createSlice({
         console.error('Window not found', windowId, state)
         return
       }
+      const { desktopIndex, taskbarIndex } = windowItem
       state.windows = state.windows
         .filter(({ id }) => id !== windowId)
         .map((windowItem) => {
-          const { desktopIndex, taskbarIndex } = windowItem
-          if (desktopIndex > windowItem.desktopIndex) {
+          if (desktopIndex >= 0 && windowItem.desktopIndex > desktopIndex) {
             windowItem.desktopIndex--
+          }
+          if (desktopIndex < 0 && windowItem.desktopIndex < desktopIndex) {
+            windowItem.desktopIndex++
           }
           if (taskbarIndex > windowItem.taskbarIndex) {
             windowItem.taskbarIndex--
@@ -79,7 +84,7 @@ const windowsSlice = createSlice({
           return windowItem
         })
       const unMinimizedWindowCount = state.windows.filter(
-        ({ taskbarIndex }) => taskbarIndex >= 0,
+        ({ desktopIndex }) => desktopIndex >= 0,
       ).length
       state.isWindowFocused = unMinimizedWindowCount > 0
     },
@@ -108,7 +113,7 @@ const windowsSlice = createSlice({
       }
       helperMinimizeWindow(state, windowItem)
       const unMinimizedWindowCount = state.windows.filter(
-        ({ taskbarIndex }) => taskbarIndex >= 0,
+        ({ desktopIndex }) => desktopIndex >= 0,
       ).length
       state.isWindowFocused = unMinimizedWindowCount > 0
     },
@@ -123,14 +128,15 @@ const windowsSlice = createSlice({
         return
       }
       const unMinimizedWindowCount = state.windows.filter(
-        ({ taskbarIndex }) => taskbarIndex >= 0,
+        ({ desktopIndex }) => desktopIndex >= 0,
       ).length
       const isMinimized = windowItem.desktopIndex < 0
       if (!isMinimized) {
         helperMinimizeWindow(state, windowItem)
         state.isWindowFocused = unMinimizedWindowCount - 1 > 0
       } else {
-        windowItem.desktopIndex = unMinimizedWindowCount - 1
+        windowItem.desktopIndex = unMinimizedWindowCount
+        state.isWindowFocused = true
       }
     },
     focusWindow: (
@@ -145,9 +151,18 @@ const windowsSlice = createSlice({
       }
       state.isWindowFocused = true
       const unMinimizedWindowCount = state.windows.filter(
-        ({ taskbarIndex }) => taskbarIndex >= 0,
+        ({ desktopIndex }) => desktopIndex >= 0,
       ).length
-      windowItem.desktopIndex = unMinimizedWindowCount
+      const { desktopIndex } = windowItem
+      state.windows.forEach((windowItem) => {
+        if (desktopIndex < 0 && windowItem.desktopIndex < desktopIndex) {
+          windowItem.desktopIndex++
+        }
+        if (desktopIndex >= 0 && windowItem.desktopIndex >= desktopIndex) {
+          windowItem.desktopIndex--
+        }
+      })
+      windowItem.desktopIndex = unMinimizedWindowCount - 1
     },
     reorderTaskbarWindows: (
       state: WindowsState,
