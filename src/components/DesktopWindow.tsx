@@ -1,15 +1,28 @@
-import { HTMLAttributes, memo } from 'react'
+import { HTMLAttributes, memo, MouseEventHandler } from 'react'
 import { useAppDispatch } from 'src/redux/hooks'
 import {
   deleteWindow,
-  WindowState,
+  focusWindow,
   minimizeWindow,
   toggleMaximize,
+  WindowState,
 } from 'src/redux/slices/windowsSlice'
 
-type DesktopWindowProps = WindowState
+interface DesktopWindowProps extends WindowState {
+  isWindowFocused: boolean
+}
 const DesktopWindow = memo((props: DesktopWindowProps) => {
-  const { id, file, x, y, width, height, isMaximized, desktopIndex } = props
+  const {
+    id,
+    file,
+    x,
+    y,
+    width,
+    height,
+    isMaximized,
+    desktopIndex,
+    isWindowFocused,
+  } = props
   const title = `${file.title} - ${file.applicationType}`
   const style: HTMLAttributes<HTMLDivElement>['style'] = {
     position: 'absolute',
@@ -22,12 +35,26 @@ const DesktopWindow = memo((props: DesktopWindowProps) => {
     height: `${isMaximized ? 100 : height}%`,
   }
   const dispatch = useAppDispatch()
+  const onFocus: MouseEventHandler<HTMLDivElement> = (event) => {
+    if (isWindowFocused) {
+      return
+    }
+    const targetElement = event.target as HTMLElement
+    const isControlsDiv = targetElement.closest('.title-bar-controls') !== null
+    if (isControlsDiv) {
+      return
+    }
+    dispatch(focusWindow(id))
+  }
   const onMinimize = () => dispatch(minimizeWindow(id))
   const onMaximize = () => dispatch(toggleMaximize(id))
   const onClose = () => dispatch(deleteWindow(id))
   return (
-    <div className="window" style={style}>
-      <div className="title-bar" style={{ minWidth: 'fit-content' }}>
+    <div className="window" style={style} onClick={onFocus}>
+      <div
+        className={`title-bar ${isWindowFocused ? '' : 'inactive'}`}
+        style={{ minWidth: 'fit-content' }}
+      >
         <div className="title-bar-text">{title}</div>
         <div className="title-bar-controls" style={{ minWidth: 'fit-content' }}>
           <button aria-label="Minimize" onClick={onMinimize}></button>
