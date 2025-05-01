@@ -57,6 +57,14 @@ const initialState: DesktopIconsState = {
       icon: NotepadIcon,
       applicationType: 'Notepad',
     },
+    {
+      type: 'shortcut',
+      row: 7,
+      col: 1,
+      title: '2048',
+      icon: InternetIcon,
+      url: 'https://2048-kohl-chi.vercel.app/',
+    },
   ],
 }
 
