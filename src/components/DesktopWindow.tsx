@@ -58,7 +58,10 @@ const DesktopWindow = memo((props: DesktopWindowProps) => {
         <div className="title-bar-text">{title}</div>
         <div className="title-bar-controls" style={{ minWidth: 'fit-content' }}>
           <button aria-label="Minimize" onClick={onMinimize}></button>
-          <button aria-label="Maximize" onClick={onMaximize}></button>
+          <button
+            aria-label={isMaximized ? 'Restore' : 'Maximize'}
+            onClick={onMaximize}
+          ></button>
           <button aria-label="Close" onClick={onClose}></button>
         </div>
       </div>
