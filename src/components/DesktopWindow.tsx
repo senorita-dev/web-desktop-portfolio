@@ -1,4 +1,5 @@
 import { HTMLAttributes, memo, MouseEventHandler } from 'react'
+import styles from 'src/components/DesktopWindow.module.css'
 import { useAppDispatch } from 'src/redux/hooks'
 import {
   deleteWindow,
@@ -52,10 +53,15 @@ const DesktopWindow = memo((props: DesktopWindowProps) => {
   return (
     <div className="window" style={style} onClick={onFocus}>
       <div
-        className={`title-bar ${isWindowFocused ? '' : 'inactive'}`}
+        className={`title-bar ${isWindowFocused ? '' : 'inactive'} ${
+          styles.desktopWindow_titlebar
+        }`}
         style={{ minWidth: 'fit-content' }}
       >
-        <div className="title-bar-text">{title}</div>
+        <div className={`title-bar-text ${styles.destkopWindow_titlebar_text}`}>
+          <img src={file.icon} className={styles.desktopWindow_titlebar_icon} />
+          {title}
+        </div>
         <div className="title-bar-controls" style={{ minWidth: 'fit-content' }}>
           <button aria-label="Minimize" onClick={onMinimize}></button>
           <button
