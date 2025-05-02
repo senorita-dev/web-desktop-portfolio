@@ -19,6 +19,7 @@ type ApplicationType = 'Notepad'
 export interface FileDesktopIconProps extends BaseDesktopIconProps {
   type: 'file'
   applicationType: ApplicationType
+  data: string
 }
 interface CustomDesktopIconProps extends BaseDesktopIconProps {
   type: 'custom'
