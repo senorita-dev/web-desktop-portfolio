@@ -2,6 +2,7 @@ import { CSSProperties } from 'react'
 import ShortcutOverlay from 'src/assets/icons/overlay_shortcut.png'
 import styles from 'src/components/DesktopIcon.module.css'
 import { useAppDispatch } from 'src/redux/hooks'
+import { Icon } from 'src/redux/slices/desktopIconsSlice'
 import { createWindow } from 'src/redux/slices/windowsSlice'
 import { assertNever } from 'src/utils'
 
@@ -9,7 +10,7 @@ interface BaseDesktopIconProps {
   row: number
   col: number
   title: string
-  icon: string
+  icon: Icon
 }
 interface ShortcutDesktopIconProps extends BaseDesktopIconProps {
   type: 'shortcut'
@@ -53,10 +54,15 @@ const ShortcutDesktopIcon = (props: ShortcutDesktopIconProps) => {
   return (
     <div className={styles.desktopIcon} style={style} onClick={onOpen}>
       <div className={styles.desktopIcon_imageContainer}>
-        <img src={icon} className={styles.desktopIcon_image} />
+        <img
+          src={icon.path}
+          alt={icon.altText}
+          className={styles.desktopIcon_image}
+        />
         {!hideShortcutIcon && (
           <img
             src={ShortcutOverlay}
+            alt="Shortcut overlay icon"
             className={styles.desktopIcon_shortcutOverlay}
           />
         )}
@@ -79,7 +85,11 @@ const FileDesktopIcon = (props: FileDesktopIconProps) => {
       data-window-opener={true}
     >
       <div className={styles.desktopIcon_imageContainer}>
-        <img src={icon} className={styles.desktopIcon_image} />
+        <img
+          src={icon.path}
+          alt={icon.altText}
+          className={styles.desktopIcon_image}
+        />
       </div>
       <span className={styles.desktopIcon_title}>{title}</span>
     </div>
@@ -92,7 +102,11 @@ const CustomDesktopIcon = (props: CustomDesktopIconProps) => {
   return (
     <div className={styles.desktopIcon} style={style}>
       <div className={styles.desktopIcon_imageContainer}>
-        <img src={icon} className={styles.desktopIcon_image} />
+        <img
+          src={icon.path}
+          alt={icon.altText}
+          className={styles.desktopIcon_image}
+        />
       </div>
       <span className={styles.desktopIcon_title}>{title}</span>
     </div>

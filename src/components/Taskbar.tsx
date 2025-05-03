@@ -160,7 +160,11 @@ const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
       {...attributes}
       {...listeners}
     >
-      <img src={file.icon} className={styles.taskbar_windowIcon_icon} />
+      <img
+        src={file.icon.path}
+        alt={file.icon.altText}
+        className={styles.taskbar_windowIcon_icon}
+      />
       <span className={styles.taskbar_windowIcon_text}>{title}</span>
     </div>
   )
