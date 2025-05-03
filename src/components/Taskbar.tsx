@@ -1,35 +1,35 @@
 import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  PointerSensor,
-  useSensor,
-  useSensors,
+    closestCenter,
+    DndContext,
+    DragEndEvent,
+    PointerSensor,
+    useSensor,
+    useSensors
 } from '@dnd-kit/core'
 import { restrictToParentElement } from '@dnd-kit/modifiers'
 import {
-  horizontalListSortingStrategy,
-  SortableContext,
-  useSortable,
+    horizontalListSortingStrategy,
+    SortableContext,
+    useSortable
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import {
-  CSSProperties,
-  MouseEventHandler,
-  useEffect,
-  useRef,
-  useState,
+    CSSProperties,
+    MouseEventHandler,
+    useEffect,
+    useRef,
+    useState
 } from 'react'
 import { useDispatch } from 'react-redux'
 import WindowsIcon from 'src/assets/icons/windows.png'
-import { FileDesktopIconState } from 'src/redux/slices/desktopIconsSlice'
 import styles from 'src/components/Taskbar.module.css'
 import { useAppSelector } from 'src/redux/hooks'
+import { FileDesktopIconState } from 'src/redux/slices/desktopIconsSlice'
 import {
-  focusWindow,
-  minimizeWindow,
-  reorderTaskbarWindows,
-  unFocusWindows,
+    focusWindow,
+    minimizeWindow,
+    reorderTaskbarWindows,
+    unFocusWindows
 } from 'src/redux/slices/windowsSlice'
 
 const Taskbar = () => {

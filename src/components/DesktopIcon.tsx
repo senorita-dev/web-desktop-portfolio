@@ -3,10 +3,10 @@ import ShortcutOverlay from 'src/assets/icons/overlay_shortcut.png'
 import styles from 'src/components/DesktopIcon.module.css'
 import { useAppDispatch } from 'src/redux/hooks'
 import {
-  CustomDesktopIconState,
-  DesktopIconState,
-  FileDesktopIconState,
-  ShortcutDesktopIconState,
+    CustomDesktopIconState,
+    DesktopIconState,
+    FileDesktopIconState,
+    ShortcutDesktopIconState
 } from 'src/redux/slices/desktopIconsSlice'
 import { createWindow } from 'src/redux/slices/windowsSlice'
 import { assertNever } from 'src/utils'

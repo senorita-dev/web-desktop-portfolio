@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
 import ComputerIconPath from 'src/assets/icons/computer_explorer.png'
-import RecycleBinEmptyIconPath from 'src/assets/icons/recycle_bin_empty.png'
 import InternetIconPath from 'src/assets/icons/internet_connection_wiz.png'
 import NotepadIconPath from 'src/assets/icons/notepad.png'
+import RecycleBinEmptyIconPath from 'src/assets/icons/recycle_bin_empty.png'
 
 interface BaseDesktopIconState {
   row: number

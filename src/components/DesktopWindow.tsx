@@ -1,11 +1,11 @@
 import { HTMLAttributes, memo, MouseEventHandler } from 'react'
 import { useAppDispatch } from 'src/redux/hooks'
 import {
-  deleteWindow,
-  focusWindow,
-  minimizeWindow,
-  toggleMaximize,
-  WindowState,
+    deleteWindow,
+    focusWindow,
+    minimizeWindow,
+    toggleMaximize,
+    WindowState
 } from 'src/redux/slices/windowsSlice'
 
 interface DesktopWindowProps extends WindowState {
