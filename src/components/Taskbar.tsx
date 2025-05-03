@@ -1,35 +1,35 @@
 import {
-  closestCenter,
-  DndContext,
-  DragEndEvent,
-  PointerSensor,
-  useSensor,
-  useSensors,
+    closestCenter,
+    DndContext,
+    DragEndEvent,
+    PointerSensor,
+    useSensor,
+    useSensors
 } from '@dnd-kit/core'
 import { restrictToParentElement } from '@dnd-kit/modifiers'
 import {
-  horizontalListSortingStrategy,
-  SortableContext,
-  useSortable,
+    horizontalListSortingStrategy,
+    SortableContext,
+    useSortable
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import {
-  CSSProperties,
-  MouseEventHandler,
-  useEffect,
-  useRef,
-  useState,
+    CSSProperties,
+    MouseEventHandler,
+    useEffect,
+    useRef,
+    useState
 } from 'react'
 import { useDispatch } from 'react-redux'
 import WindowsIcon from 'src/assets/icons/windows.png'
-import { FileDesktopIconProps } from 'src/components/DesktopIcon'
 import styles from 'src/components/Taskbar.module.css'
 import { useAppSelector } from 'src/redux/hooks'
+import { FileDesktopIconState } from 'src/redux/slices/desktopIconsSlice'
 import {
-  focusWindow,
-  minimizeWindow,
-  reorderTaskbarWindows,
-  unFocusWindows,
+    focusWindow,
+    minimizeWindow,
+    reorderTaskbarWindows,
+    unFocusWindows
 } from 'src/redux/slices/windowsSlice'
 
 const Taskbar = () => {
@@ -120,7 +120,7 @@ const TaskbarWindowIcons = () => {
 
 interface TaskbarWindowIconProps {
   id: string
-  file: FileDesktopIconProps
+  file: FileDesktopIconState
   isWindowFocused: boolean
 }
 const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
@@ -160,7 +160,11 @@ const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
       {...attributes}
       {...listeners}
     >
-      <img src={file.icon} className={styles.taskbar_windowIcon_icon} />
+      <img
+        src={file.icon.path}
+        alt={file.icon.altText}
+        className={styles.taskbar_windowIcon_icon}
+      />
       <span className={styles.taskbar_windowIcon_text}>{title}</span>
     </div>
   )

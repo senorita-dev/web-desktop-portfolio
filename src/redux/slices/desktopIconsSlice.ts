@@ -1,12 +1,56 @@
 import { createSlice } from '@reduxjs/toolkit'
-import ComputerIcon from 'src/assets/icons/computer_explorer.png'
-import RecycleBinEmptyIcon from 'src/assets/icons/recycle_bin_empty.png'
-import InternetIcon from 'src/assets/icons/internet_connection_wiz.png'
-import NotepadIcon from 'src/assets/icons/notepad.png'
-import { DesktopIconProps } from 'src/components/DesktopIcon'
+import ComputerIconPath from 'src/assets/icons/computer_explorer.png'
+import InternetIconPath from 'src/assets/icons/internet_connection_wiz.png'
+import NotepadIconPath from 'src/assets/icons/notepad.png'
+import RecycleBinEmptyIconPath from 'src/assets/icons/recycle_bin_empty.png'
+
+interface BaseDesktopIconState {
+  row: number
+  col: number
+  title: string
+  icon: Icon
+}
+export interface ShortcutDesktopIconState extends BaseDesktopIconState {
+  type: 'shortcut'
+  url: string
+  hideShortcutIcon?: boolean
+}
+type ApplicationType = 'Notepad'
+export interface FileDesktopIconState extends BaseDesktopIconState {
+  type: 'file'
+  applicationType: ApplicationType
+}
+export interface CustomDesktopIconState extends BaseDesktopIconState {
+  type: 'custom'
+}
+export type DesktopIconState =
+  | ShortcutDesktopIconState
+  | FileDesktopIconState
+  | CustomDesktopIconState
 
 interface DesktopIconsState {
-  value: DesktopIconProps[]
+  value: DesktopIconState[]
+}
+
+export interface Icon {
+  path: string
+  altText: string
+}
+const ComputerIcon: Icon = {
+  path: ComputerIconPath,
+  altText: 'Computer icon',
+}
+const RecycleBinEmptyIcon: Icon = {
+  path: RecycleBinEmptyIconPath,
+  altText: 'Empty Recycle Bin icon',
+}
+const InternetIcon: Icon = {
+  path: InternetIconPath,
+  altText: 'Web Browser icon',
+}
+const NotepadIcon: Icon = {
+  path: NotepadIconPath,
+  altText: 'Notepad icon',
 }
 
 const initialState: DesktopIconsState = {
