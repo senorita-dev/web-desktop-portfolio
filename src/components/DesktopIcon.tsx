@@ -2,34 +2,16 @@ import { CSSProperties } from 'react'
 import ShortcutOverlay from 'src/assets/icons/overlay_shortcut.png'
 import styles from 'src/components/DesktopIcon.module.css'
 import { useAppDispatch } from 'src/redux/hooks'
-import { Icon } from 'src/redux/slices/desktopIconsSlice'
+import {
+  CustomDesktopIconState,
+  DesktopIconState,
+  FileDesktopIconState,
+  ShortcutDesktopIconState,
+} from 'src/redux/slices/desktopIconsSlice'
 import { createWindow } from 'src/redux/slices/windowsSlice'
 import { assertNever } from 'src/utils'
 
-interface BaseDesktopIconProps {
-  row: number
-  col: number
-  title: string
-  icon: Icon
-}
-interface ShortcutDesktopIconProps extends BaseDesktopIconProps {
-  type: 'shortcut'
-  url: string
-  hideShortcutIcon?: boolean
-}
-type ApplicationType = 'Notepad'
-export interface FileDesktopIconProps extends BaseDesktopIconProps {
-  type: 'file'
-  applicationType: ApplicationType
-}
-interface CustomDesktopIconProps extends BaseDesktopIconProps {
-  type: 'custom'
-}
-export type DesktopIconProps =
-  | ShortcutDesktopIconProps
-  | FileDesktopIconProps
-  | CustomDesktopIconProps
-
+type DesktopIconProps = DesktopIconState
 const DesktopIcon = (props: DesktopIconProps) => {
   const { type } = props
   switch (type) {
@@ -47,7 +29,8 @@ const DesktopIcon = (props: DesktopIconProps) => {
   }
 }
 
-const ShortcutDesktopIcon = (props: ShortcutDesktopIconProps) => {
+type ShortcutIconProps = ShortcutDesktopIconState
+const ShortcutDesktopIcon = (props: ShortcutIconProps) => {
   const { row, col, title, icon, url, hideShortcutIcon } = props
   const style: CSSProperties = { gridRow: row, gridColumn: col }
   const onOpen = () => window.open(url, '_blank', 'noopener,noreferrer')
@@ -72,6 +55,7 @@ const ShortcutDesktopIcon = (props: ShortcutDesktopIconProps) => {
   )
 }
 
+type FileDesktopIconProps = FileDesktopIconState
 const FileDesktopIcon = (props: FileDesktopIconProps) => {
   const { row, col, title, icon } = props
   const style: CSSProperties = { gridRow: row, gridColumn: col }
@@ -96,6 +80,7 @@ const FileDesktopIcon = (props: FileDesktopIconProps) => {
   )
 }
 
+type CustomDesktopIconProps = CustomDesktopIconState
 const CustomDesktopIcon = (props: CustomDesktopIconProps) => {
   const { row, col, title, icon } = props
   const style: CSSProperties = { gridRow: row, gridColumn: col }

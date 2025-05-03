@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { FileDesktopIconProps } from 'src/components/DesktopIcon'
+import { FileDesktopIconState } from 'src/redux/slices/desktopIconsSlice'
 import { v4 as uuidv4 } from 'uuid'
 
 export interface WindowState {
@@ -9,7 +9,7 @@ export interface WindowState {
   width: number
   height: number
   isMaximized: boolean
-  file: FileDesktopIconProps
+  file: FileDesktopIconState
   desktopIndex: number
   taskbarIndex: number
 }
@@ -30,7 +30,7 @@ const windowsSlice = createSlice({
   reducers: {
     createWindow: (
       state: WindowsState,
-      action: PayloadAction<FileDesktopIconProps>,
+      action: PayloadAction<FileDesktopIconState>,
     ) => {
       const id = uuidv4()
       const width = 60

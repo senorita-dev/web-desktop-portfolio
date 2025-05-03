@@ -22,7 +22,7 @@ import {
 } from 'react'
 import { useDispatch } from 'react-redux'
 import WindowsIcon from 'src/assets/icons/windows.png'
-import { FileDesktopIconProps } from 'src/components/DesktopIcon'
+import { FileDesktopIconState } from 'src/redux/slices/desktopIconsSlice'
 import styles from 'src/components/Taskbar.module.css'
 import { useAppSelector } from 'src/redux/hooks'
 import {
@@ -120,7 +120,7 @@ const TaskbarWindowIcons = () => {
 
 interface TaskbarWindowIconProps {
   id: string
-  file: FileDesktopIconProps
+  file: FileDesktopIconState
   isWindowFocused: boolean
 }
 const TaskbarWindowIcon = (props: TaskbarWindowIconProps) => {
