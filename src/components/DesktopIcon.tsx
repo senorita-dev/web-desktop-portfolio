@@ -14,6 +14,7 @@ interface BaseDesktopIconProps {
 interface ShortcutDesktopIconProps extends BaseDesktopIconProps {
   type: 'shortcut'
   url: string
+  hideShortcutIcon?: boolean
 }
 type ApplicationType = 'Notepad'
 export interface FileDesktopIconProps extends BaseDesktopIconProps {
@@ -46,17 +47,19 @@ const DesktopIcon = (props: DesktopIconProps) => {
 }
 
 const ShortcutDesktopIcon = (props: ShortcutDesktopIconProps) => {
-  const { row, col, title, icon, url } = props
+  const { row, col, title, icon, url, hideShortcutIcon } = props
   const style: CSSProperties = { gridRow: row, gridColumn: col }
   const onOpen = () => window.open(url, '_blank', 'noopener,noreferrer')
   return (
     <div className={styles.desktopIcon} style={style} onClick={onOpen}>
       <div className={styles.desktopIcon_imageContainer}>
         <img src={icon} className={styles.desktopIcon_image} />
-        <img
-          src={ShortcutOverlay}
-          className={styles.desktopIcon_shortcutOverlay}
-        />
+        {!hideShortcutIcon && (
+          <img
+            src={ShortcutOverlay}
+            className={styles.desktopIcon_shortcutOverlay}
+          />
+        )}
       </div>
       <span className={styles.desktopIcon_title}>{title}</span>
     </div>

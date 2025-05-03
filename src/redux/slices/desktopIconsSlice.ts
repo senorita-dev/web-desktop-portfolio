@@ -12,11 +12,13 @@ interface DesktopIconsState {
 const initialState: DesktopIconsState = {
   value: [
     {
-      type: 'custom',
+      type: 'shortcut',
       row: 1,
       col: 1,
       title: 'Computer',
       icon: ComputerIcon,
+      url: 'https://github.com/senorita-dev/web-desktop-portfolio',
+      hideShortcutIcon: true,
     },
     {
       type: 'custom',
@@ -29,21 +31,13 @@ const initialState: DesktopIconsState = {
       type: 'shortcut',
       row: 3,
       col: 1,
-      title: 'Source Code',
-      icon: InternetIcon,
-      url: 'https://github.com/senorita-dev/web-desktop-portfolio',
-    },
-    {
-      type: 'shortcut',
-      row: 4,
-      col: 1,
       title: 'GitHub',
       icon: InternetIcon,
       url: 'https://github.com/senorita-dev',
     },
     {
       type: 'shortcut',
-      row: 5,
+      row: 4,
       col: 1,
       title: 'LinkedIn',
       icon: InternetIcon,
@@ -51,16 +45,16 @@ const initialState: DesktopIconsState = {
     },
     {
       type: 'file',
-      row: 6,
+      row: 5,
       col: 1,
-      title: 'weaknesses',
+      title: 'About Me',
       icon: NotepadIcon,
       applicationType: 'Notepad',
     },
     {
       type: 'shortcut',
-      row: 7,
-      col: 1,
+      row: 1,
+      col: 2,
       title: '2048',
       icon: InternetIcon,
       url: 'https://2048-kohl-chi.vercel.app/',
