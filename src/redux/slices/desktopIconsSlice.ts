@@ -99,9 +99,17 @@ const initialState: DesktopIconsState = {
       type: 'shortcut',
       row: 1,
       col: 2,
+      title: 'Personal Website',
+      icon: InternetIcon,
+      url: 'https://rensaito.com/',
+    },
+    {
+      type: 'shortcut',
+      row: 2,
+      col: 2,
       title: '2048',
       icon: InternetIcon,
-      url: 'https://2048-kohl-chi.vercel.app/',
+      url: 'https://rensaito.com/projects/2048/',
     },
   ],
 }
